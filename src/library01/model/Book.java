@@ -5,10 +5,11 @@ import java.beans.PropertyChangeSupport;
 import java.util.Date;
 
 public class Book {
+	private String id;
 	private String title;
 	private String author;
 	private String genre;
-	private Date publishDate;
+	private Integer publishYear;
 	private Boolean available;
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
             this);
@@ -16,11 +17,12 @@ public class Book {
 	public Book() {
 	}
 	
-	public Book(String title, String author, String genre, Date publishDate, Boolean available) {
+	public Book(String id, String title, String author, String genre, Integer publishYear, Boolean available) {
+		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
-		this.publishDate = publishDate;
+		this.publishYear = publishYear;
 		this.available = available;
 	}
 	
@@ -31,6 +33,10 @@ public class Book {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+    
+    public String getId() {
+    	return id;
     }
     
     public String getTitle() {
@@ -45,12 +51,17 @@ public class Book {
     	return genre;
     }
     
-    public Date getPublishDate() {
-    	return publishDate;
+    public Integer getPublishYear() {
+    	return publishYear;
     }
     
     public Boolean getAvailable() {
     	return available;
+    }
+    
+    public void setId(String id) {
+        propertyChangeSupport.firePropertyChange("id", this.id,
+                this.id = id);
     }
     
     public void setTitle(String title) {
@@ -68,9 +79,9 @@ public class Book {
                 this.genre = genre);
     }
     
-    public void setPublishDate(Date publishDate) {
-        propertyChangeSupport.firePropertyChange("publishDate", this.publishDate,
-                this.publishDate = publishDate);
+    public void setPublishYear(Integer publishYear) {
+        propertyChangeSupport.firePropertyChange("publishYear", this.publishYear,
+                this.publishYear = publishYear);
     }
     
     public void setAvailable(Boolean available) {
@@ -80,7 +91,7 @@ public class Book {
     
     @Override
     public String toString() {
-        return title + ", by " + author;
+        return id + ": " + title + ", by " + author;
     }
 	
 	
