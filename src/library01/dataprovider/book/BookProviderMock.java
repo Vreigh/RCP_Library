@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import library01.model.Book;
+import library01.model.BookUpdateData;
 
 public class BookProviderMock implements BookProvider {
 	private List<Book> books;
@@ -28,7 +29,8 @@ public class BookProviderMock implements BookProvider {
 	}
 	
 	public List<Book> getBooks(){
-		return Collections.unmodifiableList(books);
+		return new ArrayList<Book>(books);
+		//return Collections.unmodifiableList(books);
 	}
 	public Optional<Book> getBookById(String id) {
 		return books.stream().filter(s -> s.getId().equals(id)).findFirst();
@@ -40,7 +42,13 @@ public class BookProviderMock implements BookProvider {
 	public void deleteBook() {
 		
 	}
-	public void updateBook() {
-		
+	public Boolean updateBook(String id, BookUpdateData update) {
+		Optional<Book> old = getBookById(id);
+		if(!old.isPresent()) return false;
+		if(update.id != null) {
+			if(getBookById(update.id).isPresent()) return false;
+		}
+		// ok
+		return old.get().update(update);
 	}
 }

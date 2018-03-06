@@ -6,6 +6,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -23,6 +24,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 import library01.dataprovider.DataProvider;
+import library01.edit.TitleEditingSupport;
 import library01.filter.BookFilter;
 import library01.model.Book;
 import library01.sorter.ByColumnViewerComparator;
@@ -109,11 +111,11 @@ public class BookIndex{
         col = createTableViewerColumn(titles[1], bounds[1], 1);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
-                Book b = (Book) element;
-                return b.getTitle();
+            public void update(ViewerCell cell) {
+            	cell.setText(((Book) cell.getElement()).getTitle());
             }
         });
+        col.setEditingSupport(new TitleEditingSupport(viewer));
 
         // Author
         col = createTableViewerColumn(titles[2], bounds[2], 2);

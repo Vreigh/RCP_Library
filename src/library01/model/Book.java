@@ -93,6 +93,16 @@ public class Book {
     public String toString() {
         return id + ": " + title + ", by " + author;
     }
+    
+    public Boolean update(BookUpdateData update){
+    	if(update.id != null) this.setId(update.id);
+    	if(update.title != null) this.setTitle(update.title);
+    	if(update.author != null) this.setAuthor(update.author);
+    	if(update.genre != null) this.setGenre(update.genre);
+    	if(update.publishYear != null) this.setPublishYear(update.publishYear);
+    	if(update.available != null) this.setAvailable(update.available);
+    	return true;
+    }
 	
 	
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import library01.dataprovider.book.BookProvider;
 import library01.dataprovider.book.BookProviderMock;
 import library01.model.Book;
+import library01.model.BookUpdateData;
 
 public enum DataProvider {
 	INSTANCE;
@@ -29,7 +30,7 @@ public enum DataProvider {
 	public void deleteBook() {
 		bookProvider.deleteBook();
 	}
-	public void updateBook() {
-		bookProvider.updateBook();
+	public Boolean updateBook(String id, BookUpdateData update) {
+		return bookProvider.updateBook(id, update);
 	}
 }
