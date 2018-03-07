@@ -48,11 +48,12 @@ public class BookIndex implements IndexView{
 		
 	private BookFilter filter;
 	private ByColumnViewerComparator comparator;
+	private Shell parentShell;
 	
 	@PostConstruct
 	public void createComposite(Composite parent) {
-		Shell body = parent.getShell();
-		body.setSize(1000, 700);
+		parentShell = parent.getShell();
+		parentShell.setSize(1000, 700);
 		GridLayout layout = new GridLayout(2, false);
         parent.setLayout(layout);
         
@@ -131,7 +132,7 @@ public class BookIndex implements IndexView{
             	cell.setText(((Book) cell.getElement()).getId());
             }
         });
-        col.setEditingSupport(new IdEditingSupport(viewer));
+        col.setEditingSupport(new IdEditingSupport(viewer, parentShell));
         
         // EID
         col = createTableViewerColumn(titles[1], bounds[1], 1);
@@ -141,7 +142,7 @@ public class BookIndex implements IndexView{
             	cell.setText(((Book) cell.getElement()).getEId());
             }
         });
-        col.setEditingSupport(new EIdEditingSupport(viewer));
+        col.setEditingSupport(new EIdEditingSupport(viewer, parentShell));
 
         // Title
         col = createTableViewerColumn(titles[2], bounds[2], 2);
@@ -151,7 +152,7 @@ public class BookIndex implements IndexView{
             	cell.setText(((Book) cell.getElement()).getTitle());
             }
         });
-        col.setEditingSupport(new TitleEditingSupport(viewer));
+        col.setEditingSupport(new TitleEditingSupport(viewer, parentShell));
 
         // Author
         col = createTableViewerColumn(titles[3], bounds[3], 3);
@@ -161,7 +162,7 @@ public class BookIndex implements IndexView{
             	cell.setText(((Book) cell.getElement()).getAuthor());
             }
         });
-        col.setEditingSupport(new AuthorEditingSupport(viewer));
+        col.setEditingSupport(new AuthorEditingSupport(viewer, parentShell));
         
         // Genre
         col = createTableViewerColumn(titles[4], bounds[4], 4);
@@ -171,7 +172,7 @@ public class BookIndex implements IndexView{
             	cell.setText(((Book) cell.getElement()).getGenre());
             }
         });
-        col.setEditingSupport(new GenreEditingSupport(viewer));
+        col.setEditingSupport(new GenreEditingSupport(viewer, parentShell));
         
         // Publish Year
         col = createTableViewerColumn(titles[5], bounds[5], 5);
@@ -181,7 +182,7 @@ public class BookIndex implements IndexView{
             	cell.setText(((Book) cell.getElement()).getPublishYearString());
             }
         });
-        col.setEditingSupport(new PublishYearEditingSupport(viewer));
+        col.setEditingSupport(new PublishYearEditingSupport(viewer, parentShell));
         
         // Available
         col = createTableViewerColumn(titles[6], bounds[6], 6);
@@ -195,7 +196,7 @@ public class BookIndex implements IndexView{
                 }
             }
         });
-        col.setEditingSupport(new AvailableEditingSupport(viewer));
+        col.setEditingSupport(new AvailableEditingSupport(viewer, parentShell));
     }
 
     private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {

@@ -91,11 +91,11 @@ public class BookProviderMock implements BookProvider {
 		if(book.isPresent()) books.remove(book.get());
 	}
 	
-	public Boolean updateBook(String id, BookUpdateData update) {
+	public Optional<String> updateBook(String id, BookUpdateData update) {
 		Optional<Book> old = getBookById(id);
-		if(!old.isPresent()) return false; // jeśli nie ma książki, którą chcemy edytować
+		if(!old.isPresent()) return Optional.of("Requested Book not found, cant update");
 		if((update.id != null) && (!update.id.equals(id))) {
-			if(getBookById(update.id).isPresent()) return false; // nowe id zajęte
+			if(getBookById(update.id).isPresent()) return Optional.of("This new id is already taken");
 		}
 		if(update.eId != null) {
 			Optional<BookEdition> edition = getBookEditionById(update.eId);

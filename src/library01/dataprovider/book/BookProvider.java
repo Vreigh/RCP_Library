@@ -12,5 +12,5 @@ public interface BookProvider {
 	// TO DO: jakie argumenty to przyjmuje?
 	public Optional<String> addNewBook(BookUpdateData data);
 	public void deleteBook(String id);
-	public Boolean updateBook(String id, BookUpdateData update);
+	public Optional<String> updateBook(String id, BookUpdateData update);
 }

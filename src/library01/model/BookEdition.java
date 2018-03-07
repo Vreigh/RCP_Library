@@ -1,6 +1,7 @@
 package library01.model;
 
 import java.beans.PropertyChangeSupport;
+import java.util.Optional;
 
 public class BookEdition {
 	private String id;
@@ -59,11 +60,11 @@ public class BookEdition {
                 this.publishYear = publishYear);
     }
     
-    Boolean update(BookUpdateData update) {
+    Optional<String> update(BookUpdateData update) {
     	if(update.title != null) this.setTitle(update.title);
     	if(update.author != null) this.setAuthor(update.author);
     	if(update.genre != null) this.setGenre(update.genre);
     	if(update.publishYear != null) this.setPublishYear(update.publishYear);
-    	return true;
+    	return Optional.empty();
     }
 }

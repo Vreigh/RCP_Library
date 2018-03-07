@@ -1,6 +1,10 @@
 package library01.edit;
 
+import java.util.Optional;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.widgets.Shell;
 
 import library01.dataprovider.DataProvider;
 import library01.model.Book;
@@ -9,8 +13,8 @@ import library01.model.BookUpdateData;
 public class AuthorEditingSupport extends TitleEditingSupport{
 	private final TableViewer viewer;
 
-    public AuthorEditingSupport(TableViewer viewer) {
-        super(viewer);
+    public AuthorEditingSupport(TableViewer viewer, Shell parentShell) {
+        super(viewer, parentShell);
         this.viewer = viewer;
     }
     
@@ -25,11 +29,13 @@ public class AuthorEditingSupport extends TitleEditingSupport{
     	String input = String.valueOf(userInputValue);
     	BookUpdateData update = new BookUpdateData(null, null, null, input, null, null, null);
     	
-    	if(DataProvider.INSTANCE.updateBook(book.getId(), update)) {
+    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), update);
+    	
+    	if(!error.isPresent()) {
     		book.update(update);
     		viewer.refresh(); // odswiez wszystko (po kilka rzedow moglo sie zmienic
     	}else {
-    		System.out.println("Edycja niemozliwa");
+    		MessageDialog.openError(parentShell, "Invalid data", error.get());
     	}
     }
 }

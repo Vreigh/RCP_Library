@@ -110,11 +110,11 @@ public class Book {
         return "id: " + id + " eId: " + eId + " available: " + available;
     }
     
-    public Boolean update(BookUpdateData update){ // TO DO: lepsza kontrola spójności
+    public Optional<String> update(BookUpdateData update){ // TO DO: lepsza kontrola spójności
     	if(update.id != null) this.setId(update.id);
     	if(update.eId != null) this.setEId(update.eId);
     	if(update.available != null) this.setAvailable(update.available);
     	if(edition.isPresent()) return edition.get().update(update);
-    	else return true;
+    	else return Optional.empty();
     }
 }

@@ -30,7 +30,7 @@ public enum DataProvider {
 	public void deleteBook(String id) {
 		bookProvider.deleteBook(id);
 	}
-	public Boolean updateBook(String id, BookUpdateData update) {
+	public Optional<String> updateBook(String id, BookUpdateData update) {
 		return bookProvider.updateBook(id, update);
 	}
 }

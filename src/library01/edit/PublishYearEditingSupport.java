@@ -1,6 +1,10 @@
 package library01.edit;
 
+import java.util.Optional;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.widgets.Shell;
 
 import library01.dataprovider.DataProvider;
 import library01.model.Book;
@@ -9,8 +13,8 @@ import library01.model.BookUpdateData;
 public class PublishYearEditingSupport extends TitleEditingSupport{
 	private final TableViewer viewer;
 
-    public PublishYearEditingSupport(TableViewer viewer) {
-        super(viewer);
+    public PublishYearEditingSupport(TableViewer viewer, Shell parentShell) {
+        super(viewer, parentShell);
         this.viewer = viewer;
     }
     
@@ -24,18 +28,27 @@ public class PublishYearEditingSupport extends TitleEditingSupport{
     protected void setValue(Object element, Object userInputValue) {
     	Book book = (Book) element;
     	String tmp = String.valueOf(userInputValue);
-    	Integer input = Integer.valueOf(tmp);
+    	Integer input;
+    	try {
+    		input = Integer.valueOf(tmp);
+    	}catch(Exception e) {
+    		MessageDialog.openError(parentShell, "Invalid data", "Publish Year must be a number!");
+    		return;
+    	}
+    	
     	if(input > 2050 || input < -10000) {
     		System.out.println("Edycja niemozliwa");
     		return;
     	}
     	BookUpdateData update = new BookUpdateData(null, null, null, null, null, input, null);
     	
-    	if(DataProvider.INSTANCE.updateBook(book.getId(), update)) {
+    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), update);
+    	
+    	if(!error.isPresent()) {
     		book.update(update);
     		viewer.refresh(); // odswiez wszystko (po kilka rzedow moglo sie zmienic
     	}else {
-    		System.out.println("Edycja niemozliwa");
+    		MessageDialog.openError(parentShell, "Invalid data", error.get());
     	}
     }
 }
