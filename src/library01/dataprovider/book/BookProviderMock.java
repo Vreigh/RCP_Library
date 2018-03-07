@@ -71,18 +71,20 @@ public class BookProviderMock implements BookProvider {
 	private Optional<BookEdition> getBookEditionById(List<BookEdition> editions, String id){
 		return editions.stream().filter(s -> s.getId().equals(id)).findFirst();
 	} 
-	// TO DO
 	
 	public Optional<String> addNewBook(BookUpdateData data) {
 		if(getBookById(data.id).isPresent()) {
 			return Optional.of("Book with given id already exists!");
 		}
 		
-		books.add(new Book(data.id, data.eId, data.available));
+		Optional<String> error = data.validateCreateWithEdition();
+		if(error.isPresent()) return error;
 		
 		if(data.title != null) {
 			editions.add(new BookEdition(data.eId, data.title, data.author, data.genre, data.publishYear));
 		}
+		
+		books.add(new Book(data.id, data.eId, data.available));
 		
 		return Optional.empty();
 	}
@@ -92,6 +94,9 @@ public class BookProviderMock implements BookProvider {
 	}
 	
 	public Optional<String> updateBook(String id, BookUpdateData update) {
+		Optional<String> error = update.validatePresent();
+		if(error.isPresent()) return error;
+		
 		Optional<Book> old = getBookById(id);
 		if(!old.isPresent()) return Optional.of("Requested Book not found, cant update");
 		if((update.id != null) && (!update.id.equals(id))) {

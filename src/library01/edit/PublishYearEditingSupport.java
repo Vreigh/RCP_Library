@@ -36,10 +36,6 @@ public class PublishYearEditingSupport extends TitleEditingSupport{
     		return;
     	}
     	
-    	if(input > 2050 || input < -10000) {
-    		System.out.println("Edycja niemozliwa");
-    		return;
-    	}
     	BookUpdateData update = new BookUpdateData(null, null, null, null, null, input, null);
     	
     	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), update);

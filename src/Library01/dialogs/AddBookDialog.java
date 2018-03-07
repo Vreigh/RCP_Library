@@ -123,25 +123,14 @@ public class AddBookDialog extends TitleAreaDialog {
     @Override
     protected void okPressed() {
         saveInput();
-        Boolean correct = false;
-        if((id != null) && (eId != null) && (title != null) && (author != null) && (genre != null) && (publishYear != null)) {
-        	correct = true;
-        }
-        if((id != null) && (eId != null) && (title == null) && (author == null) && (genre == null) && (publishYear == null)) {
-        	correct = true;
-        }
-        
-        if(correct) {
-        	Optional<String> error = DataProvider.INSTANCE.addNewBook(get());
-        	if(error.isPresent()) {
-        		MessageDialog.openError(parentShell, "Invalid data", error.get());
-        	}else {
-        		MessageDialog.openConfirm(parentShell, "Success!", "Book added successfuly");
-        		super.okPressed();
-        	}
-        }else {
-        	MessageDialog.openError(parentShell, "Invalid data", "Please fill all the fields or just ID and EID");
-        } 
+    	Optional<String> error = DataProvider.INSTANCE.addNewBook(get());
+    	if(error.isPresent()) {
+    		MessageDialog.openError(parentShell, "Invalid data", error.get());
+    	}else {
+    		MessageDialog.openConfirm(parentShell, "Success!", "Book added successfuly");
+    		super.okPressed();
+    	}
+         
     }
     
     public BookUpdateData get() {
