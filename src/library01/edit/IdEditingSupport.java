@@ -9,42 +9,35 @@ import library01.dataprovider.DataProvider;
 import library01.model.Book;
 import library01.model.BookUpdateData;
 
-public class TitleEditingSupport extends EditingSupport {
+public class IdEditingSupport extends TitleEditingSupport {
 	private final TableViewer viewer;
-    private final CellEditor editor;
 
-    public TitleEditingSupport(TableViewer viewer) {
+    public IdEditingSupport(TableViewer viewer) {
         super(viewer);
         this.viewer = viewer;
-        this.editor = new TextCellEditor(viewer.getTable());
     }
-
-    @Override
-    protected CellEditor getCellEditor(Object element) {
-        return editor;
-    }
-
+    
     @Override
     protected boolean canEdit(Object element) {
-        return ((Book)element).editionSet();
+        return true; // to pole mozna zawsze edytowac
     }
 
     @Override
     protected Object getValue(Object element) {
-        return ((Book) element).getTitle();
+        return ((Book) element).getId();
     }
 
     @Override
     protected void setValue(Object element, Object userInputValue) {
     	Book book = (Book) element;
-    	String newTitle = String.valueOf(userInputValue);
-    	BookUpdateData update = new BookUpdateData(null, null, newTitle, null, null, null, null);
+    	String newId = String.valueOf(userInputValue);
+    	BookUpdateData update = new BookUpdateData(newId, null, null, null, null, null, null);
+    	
     	if(DataProvider.INSTANCE.updateBook(book.getId(), update)) {
     		book.update(update);
-    		viewer.refresh();
+    		viewer.update(element, null); // wystarczy updatowac ten jeden element
     	}else {
     		System.out.println("Edycja niemozliwa");
     	}
     }
-
 }

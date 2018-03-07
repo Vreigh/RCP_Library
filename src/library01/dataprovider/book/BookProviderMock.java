@@ -38,7 +38,7 @@ public class BookProviderMock implements BookProvider {
 		books.add(new Book("123219357", "1254-XYZ", true));
 		books.add(new Book("2429357", "1254-XYZ", false));
 		books.add(new Book("123357", "7124-XYZ", true));
-		books.add(new Book("123357", "1111-XYZ", true));
+		books.add(new Book("8867357", "1111-XYZ", true));
 		
 		for(Book book : books) {
 			Optional<BookEdition> edition = getBookEditionById(book.getEId());
@@ -78,7 +78,7 @@ public class BookProviderMock implements BookProvider {
 	public Boolean updateBook(String id, BookUpdateData update) {
 		Optional<Book> old = getBookById(id);
 		if(!old.isPresent()) return false; // jeśli nie ma książki, którą chcemy edytować
-		if((update.id != null) || (update.id != id)) {
+		if((update.id != null) && (!update.id.equals(id))) {
 			if(getBookById(update.id).isPresent()) return false; // nowe id zajęte
 		}
 		if(update.eId != null) {

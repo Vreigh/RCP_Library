@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 import library01.dataprovider.DataProvider;
+import library01.edit.IdEditingSupport;
 import library01.edit.TitleEditingSupport;
 import library01.filter.BookFilter;
 import library01.model.Book;
@@ -101,11 +102,11 @@ public class BookIndex{
         TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public String getText(Object element) {
-                Book b = (Book) element;
-                return b.getId();
+            public void update(ViewerCell cell) {
+            	cell.setText(((Book) cell.getElement()).getId());
             }
         });
+        col.setEditingSupport(new IdEditingSupport(viewer));
         
         // EID
         col = createTableViewerColumn(titles[1], bounds[1], 1);
