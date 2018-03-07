@@ -22,6 +22,9 @@ public class BookFilter extends ViewerFilter {
         if (book.getId().matches(searchString)) {
             return true;
         }
+        if(book.getEId().matches(searchString)) {
+        	return true;
+        }
         if (book.getTitle().matches(searchString)) {
             return true;
         }

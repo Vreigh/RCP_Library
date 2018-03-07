@@ -38,7 +38,7 @@ public class BookIndex{
 	@PostConstruct
 	public void createComposite(Composite parent) {
 		Shell body = parent.getShell();
-		body.setSize(900, 700);
+		body.setSize(950, 700);
 		GridLayout layout = new GridLayout(2, false);
         parent.setLayout(layout);
         
@@ -94,8 +94,8 @@ public class BookIndex{
 	
 	// tworzenie kolumn dla widoku
     private void createColumns(final Composite parent, final TableViewer viewer) {
-        String[] titles = { "ID", "Title", "Author", "Genre", "Publish Year", "Available?" };
-        int[] bounds = { 120, 150, 150, 200, 120, 90 };
+        String[] titles = { "ID", "EID", "Title", "Author", "Genre", "Publish Year", "Available?" };
+        int[] bounds = { 110, 110, 150, 150, 200, 120, 90 };
 
         // ID
         TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
@@ -106,9 +106,18 @@ public class BookIndex{
                 return b.getId();
             }
         });
+        
+        // EID
+        col = createTableViewerColumn(titles[1], bounds[1], 1);
+        col.setLabelProvider(new ColumnLabelProvider() {
+        	public String getText(Object element) {
+                Book b = (Book) element;
+                return b.getEId();
+            }
+        });
 
         // Title
-        col = createTableViewerColumn(titles[1], bounds[1], 1);
+        col = createTableViewerColumn(titles[2], bounds[2], 2);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
@@ -118,7 +127,7 @@ public class BookIndex{
         col.setEditingSupport(new TitleEditingSupport(viewer));
 
         // Author
-        col = createTableViewerColumn(titles[2], bounds[2], 2);
+        col = createTableViewerColumn(titles[3], bounds[3], 3);
         col.setLabelProvider(new ColumnLabelProvider() {
         	public String getText(Object element) {
                 Book b = (Book) element;
@@ -127,7 +136,7 @@ public class BookIndex{
         });
         
         // Genre
-        col = createTableViewerColumn(titles[3], bounds[3], 3);
+        col = createTableViewerColumn(titles[4], bounds[4], 4);
         col.setLabelProvider(new ColumnLabelProvider() {
         	public String getText(Object element) {
                 Book b = (Book) element;
@@ -136,7 +145,7 @@ public class BookIndex{
         });
         
         // Publish Year
-        col = createTableViewerColumn(titles[4], bounds[4], 4);
+        col = createTableViewerColumn(titles[5], bounds[5], 5);
         col.setLabelProvider(new ColumnLabelProvider() {
         	public String getText(Object element) {
                 Book b = (Book) element;
@@ -145,7 +154,7 @@ public class BookIndex{
         });
         
         // Available
-        col = createTableViewerColumn(titles[5], bounds[5], 5);
+        col = createTableViewerColumn(titles[6], bounds[6], 6);
         col.setLabelProvider(new ColumnLabelProvider() {
         	public String getText(Object element) {
                 Book b = (Book) element;

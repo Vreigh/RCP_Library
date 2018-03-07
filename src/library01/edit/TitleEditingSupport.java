@@ -26,7 +26,7 @@ public class TitleEditingSupport extends EditingSupport {
 
     @Override
     protected boolean canEdit(Object element) {
-        return true;
+        return ((Book)element).editionSet();
     }
 
     @Override
@@ -38,10 +38,10 @@ public class TitleEditingSupport extends EditingSupport {
     protected void setValue(Object element, Object userInputValue) {
     	Book book = (Book) element;
     	String newTitle = String.valueOf(userInputValue);
-    	BookUpdateData update = new BookUpdateData(null, String.valueOf(userInputValue), null, null, null, null);
+    	BookUpdateData update = new BookUpdateData(null, null, String.valueOf(userInputValue), null, null, null, null);
     	if(DataProvider.INSTANCE.updateBook(book.getId(), update)) {
-    		book.setTitle(newTitle);
-    		viewer.update(element, null);
+    		book.update(update);
+    		viewer.refresh();
     	}else {
     		// Daj pop-up z bledem
     	}

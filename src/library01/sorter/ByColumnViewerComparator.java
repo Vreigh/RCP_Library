@@ -41,18 +41,21 @@ public class ByColumnViewerComparator extends ViewerComparator { // dynamiczne s
             rc = b1.getId().compareTo(b2.getId());
             break;
         case 1:
-        	rc = b1.getTitle().compareTo(b2.getTitle());
+            rc = b1.getEId().compareTo(b2.getEId());
             break;
         case 2:
-        	rc = b1.getAuthor().compareTo(b2.getAuthor());
+        	rc = b1.getTitle().compareTo(b2.getTitle());
             break;
         case 3:
-        	rc = b1.getGenre().compareTo(b2.getGenre());
+        	rc = b1.getAuthor().compareTo(b2.getAuthor());
             break;
         case 4:
-        	rc = b1.getPublishYear().compareTo(b2.getPublishYear());
+        	rc = b1.getGenre().compareTo(b2.getGenre());
             break;
         case 5:
+        	rc = b1.getPublishYear().compareTo(b2.getPublishYear());
+            break;
+        case 6:
         	rc = b1.getAvailable().compareTo(b2.getAvailable());
             break;
         default:

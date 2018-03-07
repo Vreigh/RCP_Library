@@ -3,13 +3,12 @@ package library01.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Date;
+import java.util.Optional;
 
 public class Book {
 	private String id;
-	private String title;
-	private String author;
-	private String genre;
-	private Integer publishYear;
+	private String eId;
+	private Optional<BookEdition> edition;
 	private Boolean available;
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
             this);
@@ -17,12 +16,9 @@ public class Book {
 	public Book() {
 	}
 	
-	public Book(String id, String title, String author, String genre, Integer publishYear, Boolean available) {
+	public Book(String id, String eId, Boolean available) {
 		this.id = id;
-		this.title = title;
-		this.author = author;
-		this.genre = genre;
-		this.publishYear = publishYear;
+		this.eId = eId;
 		this.available = available;
 	}
 	
@@ -39,70 +35,76 @@ public class Book {
     	return id;
     }
     
+    public String getEId() {
+    	return eId;
+    }
+    
     public String getTitle() {
-    	return title;
+    	if(edition.isPresent()) {
+    		return edition.get().getTitle();
+    	}else return "BD";
     }
     
     public String getAuthor() {
-    	return author;
+    	if(edition.isPresent()) {
+    		return edition.get().getAuthor();
+    	}else return "BD";
     }
     
     public String getGenre() {
-    	return genre;
+    	if(edition.isPresent()) {
+    		return edition.get().getGenre();
+    	}else return "BD";
     }
     
     public Integer getPublishYear() {
-    	return publishYear;
+    	if(edition.isPresent()) {
+    		return edition.get().getPublishYear();
+    	}else return -1;
     }
     
     public Boolean getAvailable() {
     	return available;
     }
     
-    public void setId(String id) {
+    private void setId(String id) {
         propertyChangeSupport.firePropertyChange("id", this.id,
                 this.id = id);
     }
     
-    public void setTitle(String title) {
-        propertyChangeSupport.firePropertyChange("title", this.title,
-                this.title = title);
+    private void setEId(String eId) {
+        propertyChangeSupport.firePropertyChange("eId", this.eId,
+                this.eId = eId);
     }
     
-    public void setAuthor(String author) {
-        propertyChangeSupport.firePropertyChange("author", this.author,
-                this.author = author);
+    public Boolean editionSet() {
+    	return edition.isPresent();
     }
     
-    public void setGenre(String genre) {
-        propertyChangeSupport.firePropertyChange("genre", this.genre,
-                this.genre = genre);
+    public void setEdition(Optional<BookEdition> edition) {
+    	if(edition.isPresent()) {
+    		if(!edition.get().getId().equals(eId)) {
+    			// rzuć wyjątkiem
+    		}
+    	}
+    	this.edition = edition;
     }
     
-    public void setPublishYear(Integer publishYear) {
-        propertyChangeSupport.firePropertyChange("publishYear", this.publishYear,
-                this.publishYear = publishYear);
-    }
-    
-    public void setAvailable(Boolean available) {
+    private void setAvailable(Boolean available) {
         propertyChangeSupport.firePropertyChange("available", this.available,
                 this.available = available);
     }
     
     @Override
     public String toString() {
-        return id + ": " + title + ", by " + author;
+        return "id: " + id + " eId: " + eId + " available: " + available;
     }
     
-    public Boolean update(BookUpdateData update){
+    public Boolean update(BookUpdateData update){ // TO DO: lepsza kontrola spójności
     	if(update.id != null) this.setId(update.id);
-    	if(update.title != null) this.setTitle(update.title);
-    	if(update.author != null) this.setAuthor(update.author);
-    	if(update.genre != null) this.setGenre(update.genre);
-    	if(update.publishYear != null) this.setPublishYear(update.publishYear);
+    	if(update.eId != null) this.setEId(update.eId);
     	if(update.available != null) this.setAvailable(update.available);
-    	return true;
+    	if(edition.isPresent()) return edition.get().update(update);
+    	else return true;
     }
-	
-	
 }
