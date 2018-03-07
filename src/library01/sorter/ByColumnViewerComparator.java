@@ -12,7 +12,7 @@ public class ByColumnViewerComparator extends ViewerComparator { // dynamiczne s
     private int direction = DESCENDING;
 
     public ByColumnViewerComparator() {
-        this.propertyIndex = 0;
+        this.propertyIndex = 1;
         direction = DESCENDING;
     }
 

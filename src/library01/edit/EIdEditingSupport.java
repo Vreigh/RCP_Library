@@ -1,50 +1,40 @@
 package library01.edit;
 
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
 
 import library01.dataprovider.DataProvider;
 import library01.model.Book;
 import library01.model.BookUpdateData;
 
-public class TitleEditingSupport extends EditingSupport {
+public class EIdEditingSupport extends TitleEditingSupport{
 	private final TableViewer viewer;
-    private final CellEditor editor;
 
-    public TitleEditingSupport(TableViewer viewer) {
+    public EIdEditingSupport(TableViewer viewer) {
         super(viewer);
         this.viewer = viewer;
-        this.editor = new TextCellEditor(viewer.getTable());
     }
-
-    @Override
-    protected CellEditor getCellEditor(Object element) {
-        return editor;
-    }
-
+    
     @Override
     protected boolean canEdit(Object element) {
-        return ((Book)element).editionSet();
+        return true; // to pole mozna zawsze edytowac
     }
 
     @Override
     protected Object getValue(Object element) {
-        return ((Book) element).getTitle();
+        return ((Book) element).getEId();
     }
 
     @Override
     protected void setValue(Object element, Object userInputValue) {
     	Book book = (Book) element;
     	String input = String.valueOf(userInputValue);
-    	BookUpdateData update = new BookUpdateData(null, null, input, null, null, null, null);
+    	BookUpdateData update = new BookUpdateData(null, input, null, null, null, null, null);
+    	
     	if(DataProvider.INSTANCE.updateBook(book.getId(), update)) {
     		book.update(update);
-    		viewer.refresh();
+    		viewer.update(element, null); // wystarczy updatowac ten jeden element
     	}else {
     		System.out.println("Edycja niemozliwa");
     	}
     }
-
 }

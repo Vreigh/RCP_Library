@@ -60,7 +60,17 @@ public class Book {
     public Integer getPublishYear() {
     	if(edition.isPresent()) {
     		return edition.get().getPublishYear();
-    	}else return -1;
+    	}else return Integer.MIN_VALUE;
+    }
+    
+    public String getPublishYearString() {
+    	Integer year = getPublishYear();
+    	if(year == Integer.MIN_VALUE) {
+    		return "BD";
+    	}else if(year < 0) {
+    		year = -year;
+    		return year.toString() + " bc";
+    	}else return year.toString();
     }
     
     public Boolean getAvailable() {

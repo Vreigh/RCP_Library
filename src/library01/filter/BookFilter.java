@@ -34,7 +34,7 @@ public class BookFilter extends ViewerFilter {
         if (book.getGenre().matches(searchString)) {
             return true;
         }
-        if (book.getPublishYear().toString().matches(searchString)) {
+        if (book.getPublishYearString().matches(searchString)) {
             return true;
         }
 

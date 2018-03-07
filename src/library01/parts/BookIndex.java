@@ -14,6 +14,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -24,7 +25,12 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
 import library01.dataprovider.DataProvider;
+import library01.edit.AuthorEditingSupport;
+import library01.edit.AvailableEditingSupport;
+import library01.edit.EIdEditingSupport;
+import library01.edit.GenreEditingSupport;
 import library01.edit.IdEditingSupport;
+import library01.edit.PublishYearEditingSupport;
 import library01.edit.TitleEditingSupport;
 import library01.filter.BookFilter;
 import library01.model.Book;
@@ -32,7 +38,7 @@ import library01.sorter.ByColumnViewerComparator;
 
 public class BookIndex{
 	private TableViewer viewer;
-	
+		
 	private BookFilter filter;
 	private ByColumnViewerComparator comparator;
 	
@@ -111,11 +117,12 @@ public class BookIndex{
         // EID
         col = createTableViewerColumn(titles[1], bounds[1], 1);
         col.setLabelProvider(new ColumnLabelProvider() {
-        	public String getText(Object element) {
-                Book b = (Book) element;
-                return b.getEId();
+            @Override
+            public void update(ViewerCell cell) {
+            	cell.setText(((Book) cell.getElement()).getEId());
             }
         });
+        col.setEditingSupport(new EIdEditingSupport(viewer));
 
         // Title
         col = createTableViewerColumn(titles[2], bounds[2], 2);
@@ -130,40 +137,55 @@ public class BookIndex{
         // Author
         col = createTableViewerColumn(titles[3], bounds[3], 3);
         col.setLabelProvider(new ColumnLabelProvider() {
-        	public String getText(Object element) {
-                Book b = (Book) element;
-                return b.getAuthor();
+            @Override
+            public void update(ViewerCell cell) {
+            	cell.setText(((Book) cell.getElement()).getAuthor());
             }
         });
+        col.setEditingSupport(new AuthorEditingSupport(viewer));
         
         // Genre
         col = createTableViewerColumn(titles[4], bounds[4], 4);
         col.setLabelProvider(new ColumnLabelProvider() {
-        	public String getText(Object element) {
-                Book b = (Book) element;
-                return b.getGenre();
+            @Override
+            public void update(ViewerCell cell) {
+            	cell.setText(((Book) cell.getElement()).getGenre());
             }
         });
+        col.setEditingSupport(new GenreEditingSupport(viewer));
         
         // Publish Year
         col = createTableViewerColumn(titles[5], bounds[5], 5);
         col.setLabelProvider(new ColumnLabelProvider() {
-        	public String getText(Object element) {
-                Book b = (Book) element;
-                return b.getPublishYear().toString();
+            @Override
+            public void update(ViewerCell cell) {
+            	cell.setText(((Book) cell.getElement()).getPublishYearString());
             }
         });
+        col.setEditingSupport(new PublishYearEditingSupport(viewer));
         
         // Available
         col = createTableViewerColumn(titles[6], bounds[6], 6);
         col.setLabelProvider(new ColumnLabelProvider() {
-        	public String getText(Object element) {
-                Book b = (Book) element;
-                if(b.getAvailable()) {
-                	return "YES";
-                }else return "NO";
+        	@Override
+            public String getText(Object element) {
+        		if (((Book) element).getAvailable()) {
+                    return "YES";
+                } else {
+                    return "NO";
+                }
             }
+
+            /*@Override
+            public Image getImage(Object element) {
+                if (((Book) element).getAvailable()) {
+                    return CHECKED;
+                } else {
+                    return UNCHECKED;
+                }
+            }*/
         });
+        col.setEditingSupport(new AvailableEditingSupport(viewer));
 
     }
 
