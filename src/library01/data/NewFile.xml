@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<bookData>
+	<editions>
+		<edition id="7354-XYZ">
+			<title>Nation</title>
+			<author>Terry Pratchett</author>
+			<genre>science-fiction</genre>
+			<publishYear>2008</publishYear>
+		</edition>
+		<edition id="1324-ZYZ">
+			<title>Green Mile</title>
+			<author>Stephen King</author>
+			<genre>dark fantasy"</genre>
+			<publishYear>1996</publishYear>
+		</edition>
+		<edition id="8124-XYI">
+			<title>Enneagram</title>
+			<author>Helen Palmer</author>
+			<genre>psychology</genre>
+			<publishYear>1988</publishYear>
+		</edition>
+		<edition id="7124-XAZ">
+			<title>Analiza 2</title>
+			<author>Zbigniew Skoczylas</author>
+			<genre>matematyka</genre>
+			<publishYear>2011</publishYear>
+		</edition>
+		<edition id="8211-AYZ">
+			<title>The Colour of Magic</title>
+			<author>Terry Pratchett</author>
+			<genre>fantasy</genre>
+			<publishYear>1983</publishYear>
+		</edition>
+		<edition id="1254-XYZ">
+			<title>Pet Sematary</title>
+			<author>Stephen King</author>
+			<genre>horror</genre>
+			<publishYear>1983</publishYear>
+		</edition>
+		<edition id="7124-XYZ">
+			<title>Zbrodnia i Kara</title>
+			<author>Fiodor Dostojewski</author>
+			<genre>proza psychologiczna</genre>
+			<publishYear>1866</publishYear>
+		</edition>
+	</editions>
+
+	<books>
+		<book id="7239357">
+			<eId>7354-XYZ</eId>
+			<available>false</available>
+		</book>
+		<book id="3242423">
+			<eId>7354-XYZ</eId>
+			<available>true</available>
+		</book>
+		<book id="723234357">
+			<eId>7354-XYZ</eId>
+			<available>false</available>
+		</book>
+		<book id="73453457">
+			<eId>1324-ZYZ</eId>
+			<available>true</available>
+		</book>
+		<book id="72123357">
+			<eId>1324-ZYZ</eId>
+			<available>true</available>
+		</book>
+		<book id="72234357">
+			<eId>8124-XYI</eId>
+			<available>true</available>
+		</book>
+		<book id="239357">
+			<eId>8124-XYI</eId>
+			<available>false</available>
+		</book>
+		<book id="12313357">
+			<eId>7124-XAZ</eId>
+			<available>false</available>
+		</book>
+		<book id="1123239357">
+			<eId>7124-XAZ</eId>
+			<available>true</available>
+		</book>
+		<book id="1239357">
+			<eId>8211-AYZ</eId>
+			<available>true</available>
+		</book>
+		<book id="23549357">
+			<eId>8211-AYZ</eId>
+			<available>false</available>
+		</book>
+		<book id="123219357">
+			<eId>1254-XYZ</eId>
+			<available>true</available>
+		</book>
+		<book id="2429357">
+			<eId>1254-XYZ</eId>
+			<available>false</available>
+		</book>
+		<book id="123357">
+			<eId>7124-XYZ</eId>
+			<available>false</available>
+		</book>
+		<book id="8867357">
+			<eId>1111-XYZ</eId>
+			<available>true</available>
+		</book>
+	</books>
+
+</bookData>

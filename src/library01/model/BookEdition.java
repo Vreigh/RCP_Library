@@ -20,6 +20,14 @@ public class BookEdition {
 		this.publishYear = publishYear;
 	}
 	
+	public BookEdition(BookUpdateData data) {
+		this.id = data.eId;
+		this.title = data.title;
+		this.author = data.author;
+		this.genre = data.genre;
+		this.publishYear = data.publishYear;
+	}
+	
 	public String getId() {
 		return id;
 	}

@@ -1,10 +1,12 @@
 package library01.dataprovider;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
 import library01.dataprovider.book.BookProvider;
 import library01.dataprovider.book.BookProviderMock;
+import library01.dataprovider.book.BookProviderXML;
 import library01.model.Book;
 import library01.model.BookUpdateData;
 
@@ -14,8 +16,8 @@ public enum DataProvider {
 	private BookProvider bookProvider;
 	
 	private DataProvider() {
-		// wybor odpowiedniego BookProvider-a
-		bookProvider = new BookProviderMock();
+		// tutaj ladowanie configa i wybor odpowiedniego BookProvider-a
+		bookProvider = new BookProviderXML(new File("eclipse-workspace/Library01/src/library01/data/NewFile.xml"));
 	}
 	
 	public List<Book> getBooks(){

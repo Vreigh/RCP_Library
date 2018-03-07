@@ -22,6 +22,12 @@ public class Book {
 		this.available = available;
 	}
 	
+	public Book(BookUpdateData data) {
+		this.id = data.id;
+		this.eId = data.eId;
+		this.available = data.available;
+	}
+	
 	public void addPropertyChangeListener(String propertyName,
             PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(propertyName, listener);

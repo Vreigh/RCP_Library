@@ -43,6 +43,13 @@ public class BookUpdateData {
 		return validatePresent();
 	}
 	
+	public Optional<String> validateEdition(){
+		if((eId == null) || (title == null) || (author == null) || (genre == null) || (publishYear == null)) {
+			return Optional.of("One of the values is not set!");
+		}
+		return validatePresent();
+	}
+	
 	public Optional<String> validatePresent(){ // walidacja
 		if((id != null) && (id.length() < 3)) return Optional.of("The ID field must be at least 3 characters long!");
 		if((eId != null) && (eId.length() < 3)) return Optional.of("The EID field must be at least 3 characters long!"); 
