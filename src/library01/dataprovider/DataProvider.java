@@ -27,8 +27,8 @@ public enum DataProvider {
 	public void addNewBook() {
 		bookProvider.addNewBook();
 	}
-	public void deleteBook() {
-		bookProvider.deleteBook();
+	public void deleteBook(String id) {
+		bookProvider.deleteBook(id);
 	}
 	public Boolean updateBook(String id, BookUpdateData update) {
 		return bookProvider.updateBook(id, update);

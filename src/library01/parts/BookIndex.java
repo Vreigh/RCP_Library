@@ -4,24 +4,31 @@ import javax.annotation.PostConstruct;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import library01.dataprovider.DataProvider;
@@ -36,7 +43,7 @@ import library01.filter.BookFilter;
 import library01.model.Book;
 import library01.sorter.ByColumnViewerComparator;
 
-public class BookIndex{
+public class BookIndex implements IndexView{
 	private TableViewer viewer;
 		
 	private BookFilter filter;
@@ -68,8 +75,21 @@ public class BookIndex{
         });
         filter = new BookFilter();
         viewer.addFilter(filter);
+        
+        ViewManager.INSTANCE.addView("books", this);
 	}
 	
+	public void refresh() {
+		viewer.refresh();
+	}
+	
+	public void reload() {
+		viewer.setInput(DataProvider.INSTANCE.getBooks());
+	}
+	
+	public ISelection getSelection() {
+		return viewer.getSelection();
+	}
 	
 	private void createViewer(Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
@@ -91,8 +111,7 @@ public class BookIndex{
         gridData.grabExcessHorizontalSpace = true;
         gridData.grabExcessVerticalSpace = true;
         gridData.horizontalAlignment = GridData.FILL;
-        viewer.getControl().setLayoutData(gridData);
-        
+        viewer.getControl().setLayoutData(gridData); 
 	}
 	
 	public TableViewer getViewer() {
@@ -101,8 +120,8 @@ public class BookIndex{
 	
 	// tworzenie kolumn dla widoku
     private void createColumns(final Composite parent, final TableViewer viewer) {
-        String[] titles = { "ID", "EID", "Title", "Author", "Genre", "Publish Year", "Available?" };
-        int[] bounds = { 110, 110, 150, 150, 200, 120, 90 };
+        String[] titles = { "ID", "EID", "Title", "Author", "Genre", "Publish Year", "Available?"};
+        int[] bounds = { 110, 110, 130, 130, 180, 120, 90};
 
         // ID
         TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
@@ -175,18 +194,8 @@ public class BookIndex{
                     return "NO";
                 }
             }
-
-            /*@Override
-            public Image getImage(Object element) {
-                if (((Book) element).getAvailable()) {
-                    return CHECKED;
-                } else {
-                    return UNCHECKED;
-                }
-            }*/
         });
         col.setEditingSupport(new AvailableEditingSupport(viewer));
-
     }
 
     private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {
@@ -204,11 +213,13 @@ public class BookIndex{
         SelectionAdapter selectionAdapter = new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                comparator.setColumn(index);
-                int dir = comparator.getDirection();
-                viewer.getTable().setSortDirection(dir);
-                viewer.getTable().setSortColumn(column);
-                viewer.refresh();
+            	if(index != 7) {
+            		comparator.setColumn(index);
+                    int dir = comparator.getDirection();
+                    viewer.getTable().setSortDirection(dir);
+                    viewer.getTable().setSortColumn(column);
+                    viewer.refresh();
+            	}
             }
         };
         return selectionAdapter;

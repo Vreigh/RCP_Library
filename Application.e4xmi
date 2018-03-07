@@ -6,41 +6,28 @@
         <children xsi:type="basic:Part" xmi:id="_6wlLlMgZEeSyMNYR5xypkQ" elementId="Library01.part.sample" contributionURI="bundleclass://Library01/library01.parts.BookIndex" label="Book list"/>
       </children>
     </children>
-    <mainMenu xmi:id="_6wlLicgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.main.menu">
-      <children xsi:type="menu:Menu" xmi:id="_6wlLisgZEeSyMNYR5xypkQ" elementId="file" label="File">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_6wlLi8gZEeSyMNYR5xypkQ" elementId="Library01.handleditem.file.open" label="Open" iconURI="platform:/plugin/Library01/icons/sample.png" command="_6wlLgMgZEeSyMNYR5xypkQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_6wlLjMgZEeSyMNYR5xypkQ" elementId="Library01.handleditem.save" label="Save" iconURI="platform:/plugin/Library01/icons/save_edit.png" command="_6wlLg8gZEeSyMNYR5xypkQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_6wlLjcgZEeSyMNYR5xypkQ" elementId="Library01.handleditem.quit" label="Quit" command="_6wlLfMgZEeSyMNYR5xypkQ"/>
-      </children>
-      <children xsi:type="menu:Menu" xmi:id="_6wlLjsgZEeSyMNYR5xypkQ" elementId="help" label="Help">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_6wlLj8gZEeSyMNYR5xypkQ" elementId="Library01.handleditem.about" label="About" command="_6wlLhsgZEeSyMNYR5xypkQ"/>
-      </children>
-    </mainMenu>
+    <mainMenu xmi:id="_6wlLicgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.main.menu"/>
     <trimBars xmi:id="_6wlLlcgZEeSyMNYR5xypkQ" elementId="Library01.trimbar.top">
       <children xsi:type="menu:ToolBar" xmi:id="_6wlLlsgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.main.toolbar">
-        <children xsi:type="menu:HandledToolItem" xmi:id="_6wlLl8gZEeSyMNYR5xypkQ" elementId="Library01.handleditem.trimbar.top.open" iconURI="platform:/plugin/Library01/icons/sample.png" command="_6wlLgMgZEeSyMNYR5xypkQ"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_6wlLmMgZEeSyMNYR5xypkQ" elementId="Library01.handleditem.trimbar.top.save" iconURI="platform:/plugin/Library01/icons/save_edit.png" command="_6wlLg8gZEeSyMNYR5xypkQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_6wlLl8gZEeSyMNYR5xypkQ" elementId="Library01.handleditem.trimbar.top.open" label="Add" iconURI="" tooltip="Add a new item" command="_DDZd4CIUEeizIv_Kn86kSQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_jn4RMCIeEeizIv_Kn86kSQ" elementId="library01.handledtoolitem.delete" label="Delete" tooltip="Delete selected items" command="_V_AnwCIeEeizIv_Kn86kSQ"/>
       </children>
     </trimBars>
   </children>
   <handlers xmi:id="_6wlLfcgZEeSyMNYR5xypkQ" elementId="library01.handler.quitCommand" contributionURI="bundleclass://Library01/library01.handlers.QuitHandler" command="_6wlLfMgZEeSyMNYR5xypkQ"/>
-  <handlers xmi:id="_6wlLgcgZEeSyMNYR5xypkQ" elementId="library01.handler.openCommand" contributionURI="bundleclass://Library01/library01.handlers.OpenHandler" command="_6wlLgMgZEeSyMNYR5xypkQ"/>
-  <handlers xmi:id="_6wlLhMgZEeSyMNYR5xypkQ" elementId="library01.handler.saveCommand" contributionURI="bundleclass://Library01/library01.handlers.SaveHandler" command="_6wlLg8gZEeSyMNYR5xypkQ"/>
-  <handlers xmi:id="_6wlLh8gZEeSyMNYR5xypkQ" elementId="library01.handler.aboutCommand" contributionURI="bundleclass://Library01/library01.handlers.AboutHandler" command="_6wlLhsgZEeSyMNYR5xypkQ"/>
+  <handlers xmi:id="_B6tXgCIUEeizIv_Kn86kSQ" elementId="library01.handler.0" contributionURI="bundleclass://Library01/library01.handlers.CreateHandler" command="_DDZd4CIUEeizIv_Kn86kSQ"/>
+  <handlers xmi:id="_aNYFoCIeEeizIv_Kn86kSQ" elementId="library01.handler.deleteHandler" contributionURI="bundleclass://Library01/library01.handlers.DeleteHandler" command="_V_AnwCIeEeizIv_Kn86kSQ"/>
   <bindingTables xmi:id="_6wlLfsgZEeSyMNYR5xypkQ" elementId="Library01.bindingtable" bindingContext="_6wlLecgZEeSyMNYR5xypkQ">
     <bindings xmi:id="_6wlLf8gZEeSyMNYR5xypkQ" elementId="Library01.keybinding.m1q" keySequence="M1+Q" command="_6wlLfMgZEeSyMNYR5xypkQ"/>
-    <bindings xmi:id="_6wlLgsgZEeSyMNYR5xypkQ" elementId="Library01.keybinding.m1o" keySequence="M1+O" command="_6wlLgMgZEeSyMNYR5xypkQ"/>
-    <bindings xmi:id="_6wlLhcgZEeSyMNYR5xypkQ" elementId="Library01.keybinding.m1s" keySequence="M1+S" command="_6wlLg8gZEeSyMNYR5xypkQ"/>
-    <bindings xmi:id="_6wlLiMgZEeSyMNYR5xypkQ" elementId="Library01.keybinding.m1a" keySequence="M1+A" command="_6wlLhsgZEeSyMNYR5xypkQ"/>
+    <bindings xmi:id="_6wlLgsgZEeSyMNYR5xypkQ" elementId="Library01.keybinding.m1o" keySequence="M1+N" command="_DDZd4CIUEeizIv_Kn86kSQ"/>
   </bindingTables>
   <rootContext xmi:id="_6wlLecgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_6wlLesgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_6wlLe8gZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
   <commands xmi:id="_6wlLfMgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
-  <commands xmi:id="_6wlLgMgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.file.open" commandName="openCommand"/>
-  <commands xmi:id="_6wlLg8gZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.file.save" commandName="saveCommand"/>
-  <commands xmi:id="_6wlLhsgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.help.aboutAction" commandName="aboutCommand"/>
+  <commands xmi:id="_DDZd4CIUEeizIv_Kn86kSQ" elementId="library01.command.createCommand" commandName="createCommand"/>
+  <commands xmi:id="_V_AnwCIeEeizIv_Kn86kSQ" elementId="library01.command.deleteCommand" commandName="deleteCommand"/>
   <addons xmi:id="_6wlLcsgZEeSyMNYR5xypkQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_6wlLc8gZEeSyMNYR5xypkQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_6wlLdMgZEeSyMNYR5xypkQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

@@ -71,8 +71,9 @@ public class BookProviderMock implements BookProvider {
 	public void addNewBook() {
 		
 	}
-	public void deleteBook() {
-		
+	public void deleteBook(String id) {
+		Optional<Book> book = getBookById(id);
+		if(book.isPresent()) books.remove(book.get());
 	}
 	
 	public Boolean updateBook(String id, BookUpdateData update) {
