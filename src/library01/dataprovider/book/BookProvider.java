@@ -10,7 +10,7 @@ public interface BookProvider {
 	public List<Book> getBooks();
 	public Optional<Book> getBookById(String id);
 	// TO DO: jakie argumenty to przyjmuje?
-	public void addNewBook();
+	public Optional<String> addNewBook(BookUpdateData data);
 	public void deleteBook(String id);
 	public Boolean updateBook(String id, BookUpdateData update);
 }

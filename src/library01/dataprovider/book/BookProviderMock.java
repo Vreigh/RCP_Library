@@ -40,10 +40,10 @@ public class BookProviderMock implements BookProvider {
 		books.add(new Book("123357", "7124-XYZ", true));
 		books.add(new Book("8867357", "1111-XYZ", true));
 		
-		for(Book book : books) {
+		/*for(Book book : books) {
 			Optional<BookEdition> edition = getBookEditionById(book.getEId());
 			book.setEdition(edition);
-		}
+		}*/
 	}
 	
 	public List<Book> getBooks(){
@@ -57,7 +57,12 @@ public class BookProviderMock implements BookProvider {
 	}
 	
 	public Optional<Book> getBookById(String id) {
-		return books.stream().filter(s -> s.getId().equals(id)).findFirst();
+		Optional<Book> book = books.stream().filter(s -> s.getId().equals(id)).findFirst();
+		if(book.isPresent()) {
+			Optional<BookEdition> edition = getBookEditionById(book.get().getEId());
+			book.get().setEdition(edition);
+		}
+		return book;
 	}
 	
 	private Optional<BookEdition> getBookEditionById(String id){
@@ -68,8 +73,18 @@ public class BookProviderMock implements BookProvider {
 	} 
 	// TO DO
 	
-	public void addNewBook() {
+	public Optional<String> addNewBook(BookUpdateData data) {
+		if(getBookById(data.id).isPresent()) {
+			return Optional.of("Book with given id already exists!");
+		}
 		
+		books.add(new Book(data.id, data.eId, data.available));
+		
+		if(data.title != null) {
+			editions.add(new BookEdition(data.eId, data.title, data.author, data.genre, data.publishYear));
+		}
+		
+		return Optional.empty();
 	}
 	public void deleteBook(String id) {
 		Optional<Book> book = getBookById(id);

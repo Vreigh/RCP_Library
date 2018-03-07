@@ -52,7 +52,7 @@ public class BookIndex implements IndexView{
 	@PostConstruct
 	public void createComposite(Composite parent) {
 		Shell body = parent.getShell();
-		body.setSize(950, 700);
+		body.setSize(1000, 700);
 		GridLayout layout = new GridLayout(2, false);
         parent.setLayout(layout);
         
@@ -121,7 +121,7 @@ public class BookIndex implements IndexView{
 	// tworzenie kolumn dla widoku
     private void createColumns(final Composite parent, final TableViewer viewer) {
         String[] titles = { "ID", "EID", "Title", "Author", "Genre", "Publish Year", "Available?"};
-        int[] bounds = { 110, 110, 130, 130, 180, 120, 90};
+        int[] bounds = { 110, 110, 150, 150, 200, 120, 90};
 
         // ID
         TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);

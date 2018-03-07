@@ -24,8 +24,8 @@ public enum DataProvider {
 	public Optional<Book> getBookById(String id){
 		return bookProvider.getBookById(id);
 	}
-	public void addNewBook() {
-		bookProvider.addNewBook();
+	public Optional<String> addNewBook(BookUpdateData data) {
+		return bookProvider.addNewBook(data);
 	}
 	public void deleteBook(String id) {
 		bookProvider.deleteBook(id);
