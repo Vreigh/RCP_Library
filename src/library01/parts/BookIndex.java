@@ -50,6 +50,18 @@ public class BookIndex implements IndexView{
 	private ByColumnViewerComparator comparator;
 	private Shell parentShell;
 	
+	public void refresh() {
+		viewer.refresh();
+	}
+	
+	public void reload() {
+		viewer.setInput(DataProvider.INSTANCE.getBooks());
+	}
+	
+	public ISelection getSelection() {
+		return viewer.getSelection();
+	}
+	
 	@PostConstruct
 	public void createComposite(Composite parent) {
 		parentShell = parent.getShell();
@@ -80,18 +92,6 @@ public class BookIndex implements IndexView{
         ViewManager.INSTANCE.addView("books", this);
 	}
 	
-	public void refresh() {
-		viewer.refresh();
-	}
-	
-	public void reload() {
-		viewer.setInput(DataProvider.INSTANCE.getBooks());
-	}
-	
-	public ISelection getSelection() {
-		return viewer.getSelection();
-	}
-	
 	private void createViewer(Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
         createColumns(parent, viewer);
@@ -100,11 +100,9 @@ public class BookIndex implements IndexView{
         table.setLinesVisible(true);
 
         viewer.setContentProvider(new ArrayContentProvider());
+        DataProvider.newInstance(parentShell, viewer);
         viewer.setInput(DataProvider.INSTANCE.getBooks());
         
-        //getSite().setSelectionProvider(viewer);
-        // set the sorter for the table
-
         // define layout for the viewer
         GridData gridData = new GridData();
         gridData.verticalAlignment = GridData.FILL;

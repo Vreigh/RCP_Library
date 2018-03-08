@@ -10,12 +10,16 @@ import library01.dataprovider.book.BookProviderXML;
 import library01.model.Book;
 import library01.model.BookUpdateData;
 
-public enum DataProvider {
-	INSTANCE;
+public class DataProvider {
+	public static DataProvider INSTANCE;
+	
+	public static void newInstance(Object arg1, Object arg2) {
+		INSTANCE = new DataProvider(arg1, arg2);
+	}
 	
 	private BookProvider bookProvider;
 	
-	private DataProvider() {
+	private DataProvider(Object arg1, Object arg2) {
 		try {
 			// tutaj ladowanie configa i wybor odpowiedniego BookProvider-a
 			bookProvider = new BookProviderXML(new File("eclipse-workspace/Library01/src/library01/data/data.xml"));
