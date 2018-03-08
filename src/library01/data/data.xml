@@ -17,11 +17,11 @@
 		<book available="true" eId="1324-ZYZ" id="72123357"/>
 		<book available="true" eId="8124-XYI" id="72234357"/>
 		<book available="false" eId="8124-XYI" id="239357"/>
-		<book available="false" eId="7124-XAZ" id="12313357"/>
+		<book available="true" eId="7124-XAZ" id="12313357"/>
 		<book available="true" eId="7124-XAZ" id="1123239357"/>
 		<book available="false" eId="8211-AYZ" id="1239357"/>
 		<book available="false" eId="8211-AYZ" id="23549357"/>
-		<book available="true" eId="1254-XYZ" id="123219357"/>
+		<book available="false" eId="1254-XYZ" id="123219357"/>
 		<book available="false" eId="1254-XYZ" id="2429357"/>
 		<book available="false" eId="7124-XYZ" id="123357"/>
 		<book available="true" eId="1111-XYZ" id="8867357"/>

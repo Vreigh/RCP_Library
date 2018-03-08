@@ -16,6 +16,7 @@ import library01.dataprovider.book.BookProviderXML;
 import library01.model.Book;
 import library01.model.BookUpdateData;
 import library01.parts.IndexView;
+import library01.setup.Setupper;
 import library01.tasks.CheckerXMLTask;
 
 import org.eclipse.core.runtime.ICoreRunnable;
@@ -33,24 +34,14 @@ import org.eclipse.swt.SWT;
 public class DataProvider {
 	public static DataProvider INSTANCE;
 	
-	public static void newInstance(Object arg1, Object arg2) {
-		INSTANCE = new DataProvider(arg1, arg2);
+	public static void newInstance(Setupper setup) {
+		INSTANCE = new DataProvider(setup);
 	}
 	
 	private BookProvider bookProvider;
 	
-	private DataProvider(Object arg1, Object arg2) {
-		try {
-			// tutaj ladowanie configa i wybor odpowiedniego BookProvider-a
-			File file = new File("eclipse-workspace/Library01/src/library01/data/data.xml");
-			bookProvider = new BookProviderXML(file);
-			CheckerXMLTask checker = new CheckerXMLTask((Shell)arg1, (IndexView)arg2, file);
-			checker.start();
-			//bookProvider = new BookProviderMock();
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
+	private DataProvider(Setupper setup) {
+		bookProvider = setup.getBookProvider();
 	}
 	
 	public List<Book> getBooks(){

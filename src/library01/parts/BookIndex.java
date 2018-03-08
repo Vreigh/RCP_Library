@@ -41,6 +41,7 @@ import library01.edit.PublishYearEditingSupport;
 import library01.edit.TitleEditingSupport;
 import library01.filter.BookFilter;
 import library01.model.Book;
+import library01.setup.ConfigFileSetupper;
 import library01.sorter.ByColumnViewerComparator;
 import library01.tasks.CheckerXMLTask;
 
@@ -106,7 +107,7 @@ public class BookIndex implements IndexView{
 
         viewer.setContentProvider(new ArrayContentProvider());
         
-        DataProvider.newInstance(parentShell, this);
+        DataProvider.newInstance(new ConfigFileSetupper(parentShell, this));
         viewer.setInput(DataProvider.INSTANCE.getBooks());
         
         // define layout for the viewer

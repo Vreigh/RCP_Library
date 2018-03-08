@@ -47,7 +47,6 @@ public class CheckerXMLTask {
             	while(true) {
             		try {
             			Thread.sleep(3000);
-            			System.out.println("start");
             			List<Book> viewBooks = (List<Book>)view.getData();
             			if(viewBooks != null) {
             				List<String> changes = new ArrayList<String>();
@@ -71,7 +70,6 @@ public class CheckerXMLTask {
         							}else throw new Exception("XML format error - multiple id");
         						}
             				}
-            				System.out.println("Helloh");
     						if(!changes.isEmpty()) {
     							String message = "Source file changed by other program. Following books affected: ";
     							for(String id : changes) {
@@ -92,7 +90,6 @@ public class CheckerXMLTask {
 	}
 	
 	private void syncWithView(String warning) {
-		System.out.println("Hej tutaj!");
 		Display.getDefault().asyncExec(new Runnable() {
             public void run() {
             	view.reload();
