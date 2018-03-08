@@ -18,8 +18,8 @@ public enum DataProvider {
 	private DataProvider() {
 		try {
 			// tutaj ladowanie configa i wybor odpowiedniego BookProvider-a
-			//bookProvider = new BookProviderXML(new File("eclipse-workspace/Library01/src/library01/data/NewFile.xml"));
-			bookProvider = new BookProviderMock();
+			bookProvider = new BookProviderXML(new File("eclipse-workspace/Library01/src/library01/data/NewFile.xml"));
+			//bookProvider = new BookProviderMock();
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.exit(1);
