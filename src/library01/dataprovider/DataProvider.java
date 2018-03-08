@@ -4,13 +4,31 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
+import javax.inject.Inject;
+
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 import library01.dataprovider.book.BookProvider;
 import library01.dataprovider.book.BookProviderMock;
 import library01.dataprovider.book.BookProviderXML;
 import library01.model.Book;
 import library01.model.BookUpdateData;
+import library01.parts.IndexView;
+import library01.tasks.CheckerXMLTask;
+
+import org.eclipse.core.runtime.ICoreRunnable;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.core.runtime.jobs.ProgressProvider;
+import org.eclipse.e4.ui.di.UISynchronize;
+import org.eclipse.swt.SWT;
 
 public class DataProvider {
 	public static DataProvider INSTANCE;
@@ -24,8 +42,10 @@ public class DataProvider {
 	private DataProvider(Object arg1, Object arg2) {
 		try {
 			// tutaj ladowanie configa i wybor odpowiedniego BookProvider-a
-			bookProvider = new BookProviderXML(new File("eclipse-workspace/Library01/src/library01/data/data.xml"));
-			//Display.getDefault().asyncExec(runnable);
+			File file = new File("eclipse-workspace/Library01/src/library01/data/data.xml");
+			bookProvider = new BookProviderXML(file);
+			CheckerXMLTask checker = new CheckerXMLTask((Shell)arg1, (IndexView)arg2, file);
+			checker.start();
 			//bookProvider = new BookProviderMock();
 		}catch(Exception e) {
 			e.printStackTrace();

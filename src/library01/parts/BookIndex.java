@@ -42,6 +42,7 @@ import library01.edit.TitleEditingSupport;
 import library01.filter.BookFilter;
 import library01.model.Book;
 import library01.sorter.ByColumnViewerComparator;
+import library01.tasks.CheckerXMLTask;
 
 public class BookIndex implements IndexView{
 	private TableViewer viewer;
@@ -56,6 +57,10 @@ public class BookIndex implements IndexView{
 	
 	public void reload() {
 		viewer.setInput(DataProvider.INSTANCE.getBooks());
+	}
+	
+	public Object getData() {
+		return viewer.getInput();
 	}
 	
 	public ISelection getSelection() {
@@ -100,7 +105,8 @@ public class BookIndex implements IndexView{
         table.setLinesVisible(true);
 
         viewer.setContentProvider(new ArrayContentProvider());
-        DataProvider.newInstance(parentShell, viewer);
+        
+        DataProvider.newInstance(parentShell, this);
         viewer.setInput(DataProvider.INSTANCE.getBooks());
         
         // define layout for the viewer

@@ -82,35 +82,39 @@ public class BookProviderXML implements BookProvider {
 	
 	
 	private List<BookEdition> loadEditions() throws Exception{
-		List<BookEdition> editions = new ArrayList<BookEdition>();
-		
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(source);
+		synchronized(source) {
+			List<BookEdition> editions = new ArrayList<BookEdition>();
+			
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(source);
 
-		NodeList nList = doc.getElementsByTagName("edition");
+			NodeList nList = doc.getElementsByTagName("edition");
 
-		for(int i = 0; i < nList.getLength(); i++){
-			Node nNode = nList.item(i);
-			editions.add(getBookEditionFromNode(nNode));
+			for(int i = 0; i < nList.getLength(); i++){
+				Node nNode = nList.item(i);
+				editions.add(getBookEditionFromNode(nNode));
+			}
+			return editions;
 		}
-		return editions;
 	}
 	
 	private List<Book> loadBooks() throws Exception{
-		List<Book> books = new ArrayList<Book>();
-		
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(source);
+		synchronized(source) {
+			List<Book> books = new ArrayList<Book>();
+			
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(source);
 
-		NodeList nList = doc.getElementsByTagName("book");
+			NodeList nList = doc.getElementsByTagName("book");
 
-		for (int i = 0; i < nList.getLength(); i++) {
-			Node nNode = nList.item(i);
-			books.add(getBookFromNode(nNode));
+			for (int i = 0; i < nList.getLength(); i++) {
+				Node nNode = nList.item(i);
+				books.add(getBookFromNode(nNode));
+			}
+			return books;
 		}
-		return books;
 	}
 	
 	public List<Book> getBooks() throws Exception{
@@ -123,21 +127,23 @@ public class BookProviderXML implements BookProvider {
 		return books;
 	}
 	public Optional<Book> getBookById(String id) throws Exception{
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(source);
-		
-		XPathFactory xPathfactory = XPathFactory.newInstance();
-		XPath xpath = xPathfactory.newXPath();
-		XPathExpression expr = xpath.compile("/bookData/books/book[@id=\"" + id + "\"]");
-		
-		NodeList matchingBooks = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
-		if(matchingBooks.getLength() == 0) {
-			return Optional.empty();
-		}else if(matchingBooks.getLength() == 1) {
-			Node book = matchingBooks.item(0);
-			return Optional.of(getBookFromNode(book));
-		}else throw new Exception("XML file format error - multiple elements with same id!");
+		synchronized(source) {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(source);
+			
+			XPathFactory xPathfactory = XPathFactory.newInstance();
+			XPath xpath = xPathfactory.newXPath();
+			XPathExpression expr = xpath.compile("/bookData/books/book[@id=\"" + id + "\"]");
+			
+			NodeList matchingBooks = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
+			if(matchingBooks.getLength() == 0) {
+				return Optional.empty();
+			}else if(matchingBooks.getLength() == 1) {
+				Node book = matchingBooks.item(0);
+				return Optional.of(getBookFromNode(book));
+			}else throw new Exception("XML file format error - multiple elements with same id!");
+		}
 	}
 	public Optional<String> addNewBook(BookUpdateData data) throws Exception{
 		if(getBookById(data.id).isPresent()) {
@@ -156,40 +162,44 @@ public class BookProviderXML implements BookProvider {
 		return Optional.empty();
 	}
 	private void addNewBookEditionXML(BookUpdateData data) throws Exception {
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(source);
-		
-		Node editions = ((NodeList)doc.getElementsByTagName("editions")).item(0);
-		
-		Node editionNode = doc.createElement("edition");
-		Element edition = (Element) editionNode;
-		edition.setAttribute("id", data.eId);
-		edition.setAttribute("title", data.title);
-		edition.setAttribute("author", data.author);
-		edition.setAttribute("genre", data.genre);
-		edition.setAttribute("publishYear", String.valueOf(data.publishYear));
-		
-		editions.appendChild(editionNode);
-		saveDocument(doc);
+		synchronized(source) {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(source);
+			
+			Node editions = ((NodeList)doc.getElementsByTagName("editions")).item(0);
+			
+			Node editionNode = doc.createElement("edition");
+			Element edition = (Element) editionNode;
+			edition.setAttribute("id", data.eId);
+			edition.setAttribute("title", data.title);
+			edition.setAttribute("author", data.author);
+			edition.setAttribute("genre", data.genre);
+			edition.setAttribute("publishYear", String.valueOf(data.publishYear));
+			
+			editions.appendChild(editionNode);
+			saveDocument(doc);
+		}
 	}
 	private void addNewBookXML(BookUpdateData data) throws Exception {
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(source);
-		
-		Node books = ((NodeList)doc.getElementsByTagName("books")).item(0);
-		
-		Node bookNode = doc.createElement("book");
-		Element book = (Element) bookNode;
-		book.setAttribute("id", data.eId);
-		book.setAttribute("eId", data.eId);
-		book.setAttribute("available", String.valueOf(data.available));
-		
-		System.out.println("Hello World!");
-		
-		books.appendChild(bookNode);
-		saveDocument(doc);	
+		synchronized(source) {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(source);
+			
+			Node books = ((NodeList)doc.getElementsByTagName("books")).item(0);
+			
+			Node bookNode = doc.createElement("book");
+			Element book = (Element) bookNode;
+			book.setAttribute("id", data.eId);
+			book.setAttribute("eId", data.eId);
+			book.setAttribute("available", String.valueOf(data.available));
+			
+			System.out.println("Hello World!");
+			
+			books.appendChild(bookNode);
+			saveDocument(doc);
+		}
 	}
 	
 	private void saveDocument(Document doc) throws Exception {
@@ -201,88 +211,91 @@ public class BookProviderXML implements BookProvider {
 	}
 	
 	public void deleteBook(String id) throws Exception {
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(source);
-		
-		Node books = ((NodeList)doc.getElementsByTagName("books")).item(0);
-		
-		XPathFactory xPathfactory = XPathFactory.newInstance();
-		XPath xpath = xPathfactory.newXPath();
-		XPathExpression expr = xpath.compile("/bookData/books/book[@id=\"" + id + "\"]");
-		
-		NodeList matchingBooks = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
-		if(matchingBooks.getLength() == 0) {
-			//;
-		}else if(matchingBooks.getLength() == 1) {
-			Node book = matchingBooks.item(0);
-			books.removeChild(book);
-			saveDocument(doc);
-		}else throw new Exception("XML file format error - multiple elements with same id!");
-
+		synchronized(source) {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(source);
+			
+			Node books = ((NodeList)doc.getElementsByTagName("books")).item(0);
+			
+			XPathFactory xPathfactory = XPathFactory.newInstance();
+			XPath xpath = xPathfactory.newXPath();
+			XPathExpression expr = xpath.compile("/bookData/books/book[@id=\"" + id + "\"]");
+			
+			NodeList matchingBooks = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
+			if(matchingBooks.getLength() == 0) {
+				//;
+			}else if(matchingBooks.getLength() == 1) {
+				Node book = matchingBooks.item(0);
+				books.removeChild(book);
+				saveDocument(doc);
+			}else throw new Exception("XML file format error - multiple elements with same id!");
+		}
 	}
 	public Optional<String> updateBook(String id, BookUpdateData update) throws Exception{
 		Optional<String> error = update.validatePresent();
 		if(error.isPresent()) return error;
 		
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(source);
-		
-		XPathFactory xPathfactory = XPathFactory.newInstance();
-		XPath xpath = xPathfactory.newXPath();
-		XPathExpression oldBookSearch = xpath.compile("/bookData/books/book[@id=\"" + id + "\"]");
-		
-		NodeList matchingBooks = (NodeList)oldBookSearch.evaluate(doc, XPathConstants.NODESET);
-		if(matchingBooks.getLength() == 0) {
-			return Optional.of("Requested Book not found, cant update");
-		}else if(matchingBooks.getLength() == 1) {
-			Node bookNode = matchingBooks.item(0);
-			if((update.id != null) && (!update.id.equals(id))) {
-				XPathExpression newBookSearch = xpath.compile("/bookData/books/book[@id=\"" + update.id + "\"]");
-				matchingBooks = (NodeList)newBookSearch.evaluate(doc, XPathConstants.NODESET);
-				if(matchingBooks.getLength() == 1) {
-					return Optional.of("This new id is already taken");
-				}else if(matchingBooks.getLength() > 1) {
-					throw new Exception("XML file format error - multiple elements with same id!");
+		synchronized(source) {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(source);
+			
+			XPathFactory xPathfactory = XPathFactory.newInstance();
+			XPath xpath = xPathfactory.newXPath();
+			XPathExpression oldBookSearch = xpath.compile("/bookData/books/book[@id=\"" + id + "\"]");
+			
+			NodeList matchingBooks = (NodeList)oldBookSearch.evaluate(doc, XPathConstants.NODESET);
+			if(matchingBooks.getLength() == 0) {
+				return Optional.of("Requested Book not found, cant update");
+			}else if(matchingBooks.getLength() == 1) {
+				Node bookNode = matchingBooks.item(0);
+				if((update.id != null) && (!update.id.equals(id))) {
+					XPathExpression newBookSearch = xpath.compile("/bookData/books/book[@id=\"" + update.id + "\"]");
+					matchingBooks = (NodeList)newBookSearch.evaluate(doc, XPathConstants.NODESET);
+					if(matchingBooks.getLength() == 1) {
+						return Optional.of("This new id is already taken");
+					}else if(matchingBooks.getLength() > 1) {
+						throw new Exception("XML file format error - multiple elements with same id!");
+					}
 				}
-			}
-			Element book = (Element) bookNode;
-			Node editionToUpdate = null;
+				Element book = (Element) bookNode;
+				Node editionToUpdate = null;
+				
+				if(update.eId != null) {
+					XPathExpression editionSearch = xpath.compile("/bookData/editions/edition[@id=\"" + update.eId + "\"]");
+					NodeList matchingEditions = (NodeList)editionSearch.evaluate(doc, XPathConstants.NODESET);
+					if(matchingEditions.getLength() == 0) {
+						//
+					}else if(matchingEditions.getLength() == 1) {
+						editionToUpdate = matchingEditions.item(0);
+					}else throw new Exception("XML file format error - multiple elements with same id!"); 
+				}else {
+					XPathExpression editionSearch = xpath.compile("/bookData/editions/edition[@id=\"" + book.getAttribute("eId") + "\"]");
+					NodeList matchingEditions = (NodeList)editionSearch.evaluate(doc, XPathConstants.NODESET);
+					if(matchingEditions.getLength() == 0) {
+						// czyli nie updatujemy zadnych
+					}else if(matchingEditions.getLength() == 1) {
+						editionToUpdate = matchingEditions.item(0);
+					}else throw new Exception("XML file format error - multiple elements with same id!");
+				}
+				
+				if(editionToUpdate != null) {
+					Element edition = (Element) editionToUpdate;
+					if(update.title != null) edition.setAttribute("title", update.title);
+					if(update.author != null) edition.setAttribute("title", update.author);
+					if(update.genre != null) edition.setAttribute("title", update.genre);
+					if(update.publishYear != null) edition.setAttribute("publishYear", String.valueOf(update.publishYear));
+				}
+				
+				if(update.id != null) book.setAttribute("id", update.id);
+				if(update.eId != null) book.setAttribute("eId", update.eId);
+				if(update.available != null) book.setAttribute("available", String.valueOf(update.available));
+				
+			}else throw new Exception("XML file format error - multiple elements with same id!");
 			
-			if(update.eId != null) {
-				XPathExpression editionSearch = xpath.compile("/bookData/editions/edition[@id=\"" + update.eId + "\"]");
-				NodeList matchingEditions = (NodeList)editionSearch.evaluate(doc, XPathConstants.NODESET);
-				if(matchingEditions.getLength() == 0) {
-					// nie updatujemy zadnego
-				}else if(matchingEditions.getLength() == 1) {
-					editionToUpdate = matchingEditions.item(0);
-				}else throw new Exception("XML file format error - multiple elements with same id!"); 
-			}else {
-				XPathExpression editionSearch = xpath.compile("/bookData/editions/edition[@id=\"" + book.getAttribute("eId") + "\"]");
-				NodeList matchingEditions = (NodeList)editionSearch.evaluate(doc, XPathConstants.NODESET);
-				if(matchingEditions.getLength() == 0) {
-					// czyli nie updatujemy zadnych
-				}else if(matchingEditions.getLength() == 1) {
-					editionToUpdate = matchingEditions.item(0);
-				}else throw new Exception("XML file format error - multiple elements with same id!");
-			}
-			
-			if(editionToUpdate != null) {
-				Element edition = (Element) editionToUpdate;
-				if(update.title != null) edition.setAttribute("title", update.title);
-				if(update.author != null) edition.setAttribute("title", update.author);
-				if(update.genre != null) edition.setAttribute("title", update.genre);
-				if(update.publishYear != null) edition.setAttribute("publishYear", String.valueOf(update.publishYear));
-			}
-			
-			if(update.id != null) book.setAttribute("id", update.id);
-			if(update.eId != null) book.setAttribute("eId", update.eId);
-			if(update.available != null) book.setAttribute("available", String.valueOf(update.available));
-			
-		}else throw new Exception("XML file format error - multiple elements with same id!");
-		
-		saveDocument(doc);
-		return Optional.empty();
+			saveDocument(doc);
+			return Optional.empty();
+		}
 	}
 }
