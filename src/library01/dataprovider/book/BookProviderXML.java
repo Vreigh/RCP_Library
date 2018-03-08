@@ -125,7 +125,7 @@ public class BookProviderXML implements BookProvider {
 		
 		XPathFactory xPathfactory = XPathFactory.newInstance();
 		XPath xpath = xPathfactory.newXPath();
-		XPathExpression expr = xpath.compile("/bookData/books[@id=\"" + id + "\"]");
+		XPathExpression expr = xpath.compile("/bookData/books/book[@id=\"" + id + "\"]");
 		
 		NodeList matchingBooks = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
 		if(matchingBooks.getLength() == 0) {
@@ -133,7 +133,7 @@ public class BookProviderXML implements BookProvider {
 		}else if(matchingBooks.getLength() == 1) {
 			Node book = matchingBooks.item(0);
 			return Optional.of(getBookFromNode(book));
-		}throw new Exception("XML file format error - multiple elements with same id!");
+		}else throw new Exception("XML file format error - multiple elements with same id!");
 	}
 	public Optional<String> addNewBook(BookUpdateData data){
 		return null;
