@@ -116,7 +116,7 @@ public class Book {
         return "id: " + id + " eId: " + eId + " available: " + available;
     }
     
-    public Optional<String> update(BookUpdateData update){ // TO DO: lepsza kontrola spójności
+    public Optional<String> update(BookUpdateData update){
     	if(update.id != null) this.setId(update.id);
     	if(update.eId != null) this.setEId(update.eId);
     	if(update.available != null) this.setAvailable(update.available);

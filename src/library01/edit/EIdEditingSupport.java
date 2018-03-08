@@ -37,8 +37,7 @@ public class EIdEditingSupport extends TitleEditingSupport{
     	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), update);
     	
     	if(!error.isPresent()) {
-    		book.update(update);
-    		viewer.update(element, null); // wystarczy updatowac ten jeden element
+    		viewer.setInput(DataProvider.INSTANCE.getBooks());
     	}else {
     		MessageDialog.openError(parentShell, "Invalid data", error.get());
     	}

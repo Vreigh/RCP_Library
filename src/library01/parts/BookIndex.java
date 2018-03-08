@@ -110,7 +110,8 @@ public class BookIndex implements IndexView{
         gridData.grabExcessHorizontalSpace = true;
         gridData.grabExcessVerticalSpace = true;
         gridData.horizontalAlignment = GridData.FILL;
-        viewer.getControl().setLayoutData(gridData); 
+        viewer.getControl().setLayoutData(gridData);
+        
 	}
 	
 	public TableViewer getViewer() {
