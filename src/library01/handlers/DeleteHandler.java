@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 
+import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
 import library01.model.Book;
 import library01.parts.ViewManager;
@@ -22,7 +23,7 @@ public class DeleteHandler{
 	        if (selection != null && selection instanceof IStructuredSelection) {
 	            IStructuredSelection sel = (IStructuredSelection) selection;
 	            for (Iterator<Book> iterator = sel.iterator(); iterator.hasNext();) {
-	                Book book = iterator.next();
+	                IBook book = iterator.next();
 	                DataProvider.INSTANCE.deleteBook(book.getId());
 	            }
 	            ViewManager.INSTANCE.reload("books");

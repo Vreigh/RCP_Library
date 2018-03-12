@@ -9,28 +9,20 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
 import library01.edit.AuthorEditingSupport;
 import library01.edit.AvailableEditingSupport;
@@ -40,10 +32,8 @@ import library01.edit.IdEditingSupport;
 import library01.edit.PublishYearEditingSupport;
 import library01.edit.TitleEditingSupport;
 import library01.filter.BookFilter;
-import library01.model.Book;
 import library01.setup.ConfigFileSetupper;
 import library01.sorter.ByColumnViewerComparator;
-import library01.tasks.CheckerXMLTask;
 
 public class BookIndex implements IndexView{
 	private TableViewer viewer;
@@ -135,7 +125,7 @@ public class BookIndex implements IndexView{
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
-            	cell.setText(((Book) cell.getElement()).getId());
+            	cell.setText(((IBook) cell.getElement()).getId());
             }
         });
         col.setEditingSupport(new IdEditingSupport(viewer, parentShell));
@@ -145,7 +135,7 @@ public class BookIndex implements IndexView{
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
-            	cell.setText(((Book) cell.getElement()).getEId());
+            	cell.setText(((IBook) cell.getElement()).getEId());
             }
         });
         col.setEditingSupport(new EIdEditingSupport(viewer, parentShell));
@@ -155,7 +145,7 @@ public class BookIndex implements IndexView{
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
-            	cell.setText(((Book) cell.getElement()).getTitle());
+            	cell.setText(((IBook) cell.getElement()).getTitle());
             }
         });
         col.setEditingSupport(new TitleEditingSupport(viewer, parentShell));
@@ -165,7 +155,7 @@ public class BookIndex implements IndexView{
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
-            	cell.setText(((Book) cell.getElement()).getAuthor());
+            	cell.setText(((IBook) cell.getElement()).getAuthor());
             }
         });
         col.setEditingSupport(new AuthorEditingSupport(viewer, parentShell));
@@ -175,7 +165,7 @@ public class BookIndex implements IndexView{
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
-            	cell.setText(((Book) cell.getElement()).getGenre());
+            	cell.setText(((IBook) cell.getElement()).getGenre());
             }
         });
         col.setEditingSupport(new GenreEditingSupport(viewer, parentShell));
@@ -185,7 +175,7 @@ public class BookIndex implements IndexView{
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
-            	cell.setText(((Book) cell.getElement()).getPublishYearString());
+            	cell.setText(((IBook) cell.getElement()).getPublishYearString());
             }
         });
         col.setEditingSupport(new PublishYearEditingSupport(viewer, parentShell));
@@ -195,7 +185,7 @@ public class BookIndex implements IndexView{
         col.setLabelProvider(new ColumnLabelProvider() {
         	@Override
             public String getText(Object element) {
-        		if (((Book) element).getAvailable()) {
+        		if (((IBook) element).getAvailable()) {
                     return "YES";
                 } else {
                     return "NO";

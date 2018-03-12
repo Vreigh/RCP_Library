@@ -10,7 +10,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import library01.dataprovider.book.BookProvider;
+import library01.bookapi.BookProvider;
+import library01.bookapi.IBook;
 import library01.dataprovider.book.BookProviderMock;
 import library01.dataprovider.book.BookProviderXML;
 import library01.model.Book;
@@ -34,29 +35,29 @@ import org.eclipse.swt.SWT;
 public class DataProvider {
 	public static DataProvider INSTANCE;
 	
+	private BookProvider bookProvider;
+	
 	public static void newInstance(Setupper setup) {
 		INSTANCE = new DataProvider(setup);
 	}
-	
-	private BookProvider bookProvider;
 	
 	private DataProvider(Setupper setup) {
 		bookProvider = setup.getBookProvider();
 	}
 	
-	public List<Book> getBooks(){
+	public List<IBook> getBooks(){
 		try {
 			return bookProvider.getBooks();
-		}catch(Exception e) {
+		}catch(Throwable e) {
 			e.printStackTrace();
 			System.exit(1);
 			return null;
 		}
 	}
-	public Optional<Book> getBookById(String id){
+	public Optional<IBook> getBookById(String id){
 		try {
 			return bookProvider.getBookById(id);
-		}catch(Exception e) {
+		}catch(Throwable e) {
 			e.printStackTrace();
 			return Optional.empty();
 		}
@@ -64,14 +65,14 @@ public class DataProvider {
 	public Optional<String> addNewBook(BookUpdateData data) {
 		try {
 			return bookProvider.addNewBook(data);
-		}catch(Exception e) {
+		}catch(Throwable e) {
 			return Optional.of(e.getMessage());
 		}
 	}
 	public void deleteBook(String id) {
 		try {
 			bookProvider.deleteBook(id);
-		}catch(Exception e) {
+		}catch(Throwable e) {
 			e.printStackTrace();
 		}
 		
@@ -79,7 +80,7 @@ public class DataProvider {
 	public Optional<String> updateBook(String id, BookUpdateData update) {
 		try {
 			return bookProvider.updateBook(id, update);
-		}catch(Exception e) {
+		}catch(Throwable e) {
 			return Optional.of(e.getMessage());
 		}
 	}

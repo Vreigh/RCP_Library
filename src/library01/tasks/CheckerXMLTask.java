@@ -26,6 +26,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import library01.bookapi.IBook;
 import library01.model.Book;
 import library01.parts.IndexView;
 
@@ -47,7 +48,7 @@ public class CheckerXMLTask {
             	while(true) {
             		try {
             			Thread.sleep(3000);
-            			List<Book> viewBooks = (List<Book>)view.getData();
+            			List<IBook> viewBooks = (List<IBook>)view.getData();
             			if(viewBooks != null) {
             				List<String> changes = new ArrayList<String>();
             				synchronized(file) {
@@ -57,7 +58,7 @@ public class CheckerXMLTask {
         						
         						XPathFactory xPathfactory = XPathFactory.newInstance();
         						XPath xpath = xPathfactory.newXPath();
-        						for(Book book : viewBooks) {
+        						for(IBook book : viewBooks) {
         							XPathExpression bookSearch = xpath.compile("/bookData/books/book[@id=\"" + book.getId() + "\"]");
         							NodeList matchingBooks = (NodeList)bookSearch.evaluate(doc, XPathConstants.NODESET);
         							if(matchingBooks.getLength() == 0) {

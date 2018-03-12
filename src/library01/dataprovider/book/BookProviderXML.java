@@ -22,6 +22,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import library01.bookapi.BookProvider;
+import library01.bookapi.IBook;
 import library01.model.Book;
 import library01.model.BookEdition;
 import library01.model.BookUpdateData;
@@ -33,7 +35,7 @@ public class BookProviderXML implements BookProvider {
 		this.source = source;
 		
 		List<BookEdition> editions = loadEditions();
-		List<Book> books = loadBooks();
+		List<IBook> books = loadBooks();
 		
 		// Tutaj dodtakowa walidacja, np sprawdzanie, czy id i eid są unikalne
 	}
@@ -99,9 +101,9 @@ public class BookProviderXML implements BookProvider {
 		}
 	}
 	
-	private List<Book> loadBooks() throws Exception{
+	private List<IBook> loadBooks() throws Exception{
 		synchronized(source) {
-			List<Book> books = new ArrayList<Book>();
+			List<IBook> books = new ArrayList<IBook>();
 			
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -117,16 +119,16 @@ public class BookProviderXML implements BookProvider {
 		}
 	}
 	
-	public List<Book> getBooks() throws Exception{
+	public List<IBook> getBooks() throws Exception{
 		List<BookEdition> editions = loadEditions();
-		List<Book> books = loadBooks();
-		for(Book book : books) {
+		List<IBook> books = loadBooks();
+		for(IBook book : books) {
 			Optional<BookEdition> edition = editions.stream().filter(s -> s.getId().equals(book.getEId())).findFirst();
 			book.setEdition(edition);
 		}
 		return books;
 	}
-	public Optional<Book> getBookById(String id) throws Exception{
+	public Optional<IBook> getBookById(String id) throws Exception{
 		synchronized(source) {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

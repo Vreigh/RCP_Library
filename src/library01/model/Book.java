@@ -5,7 +5,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.Date;
 import java.util.Optional;
 
-public class Book {
+import library01.bookapi.IBook;
+
+public class Book implements IBook {
 	private String id;
 	private String eId;
 	private Optional<BookEdition> edition;

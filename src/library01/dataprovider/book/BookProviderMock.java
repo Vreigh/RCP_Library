@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import library01.bookapi.BookProvider;
+import library01.bookapi.IBook;
 import library01.model.Book;
 import library01.model.BookEdition;
 import library01.model.BookUpdateData;
 
 public class BookProviderMock implements BookProvider {
-	private List<Book> books;
+	private List<IBook> books;
 	private List<BookEdition> editions;
 	
 	public BookProviderMock() {
@@ -23,7 +25,7 @@ public class BookProviderMock implements BookProvider {
 		editions.add(new BookEdition("1254-XYZ", "Pet Sematary", "Stephen King", "horror", 1983));
 		editions.add(new BookEdition("7124-XYZ", "Zbrodnia i Kara", "Fiodor Dostojewski", "proza psychologiczna", 1866));
 		
-		books = new ArrayList<Book>();
+		books = new ArrayList<IBook>();
 		books.add(new Book("7239357", "7354-XYZ", true));
 		books.add(new Book("3242423", "7354-XYZ", false));
 		books.add(new Book("723234357", "7354-XYZ", false));
@@ -46,18 +48,18 @@ public class BookProviderMock implements BookProvider {
 		}*/
 	}
 	
-	public List<Book> getBooks(){
-		List<Book> booksClone = new ArrayList<Book>(books);
+	public List<IBook> getBooks(){
+		List<IBook> booksClone = new ArrayList<IBook>(books);
 		List<BookEdition> editionsClone = new ArrayList<BookEdition>(editions);
-		for(Book book : booksClone) {
+		for(IBook book : booksClone) {
 			Optional<BookEdition> edition = getBookEditionById(editionsClone, book.getEId());
 			book.setEdition(edition);
 		}
 		return booksClone;
 	}
 	
-	public Optional<Book> getBookById(String id) {
-		Optional<Book> book = books.stream().filter(s -> s.getId().equals(id)).findFirst();
+	public Optional<IBook> getBookById(String id) {
+		Optional<IBook> book = books.stream().filter(s -> s.getId().equals(id)).findFirst();
 		if(book.isPresent()) {
 			Optional<BookEdition> edition = getBookEditionById(book.get().getEId());
 			book.get().setEdition(edition);
@@ -89,7 +91,7 @@ public class BookProviderMock implements BookProvider {
 		return Optional.empty();
 	}
 	public void deleteBook(String id) {
-		Optional<Book> book = getBookById(id);
+		Optional<IBook> book = getBookById(id);
 		if(book.isPresent()) books.remove(book.get());
 	}
 	
@@ -97,7 +99,7 @@ public class BookProviderMock implements BookProvider {
 		Optional<String> error = update.validatePresent();
 		if(error.isPresent()) return error;
 		
-		Optional<Book> old = getBookById(id);
+		Optional<IBook> old = getBookById(id);
 		if(!old.isPresent()) return Optional.of("Requested Book not found, cant update");
 		if((update.id != null) && (!update.id.equals(id))) {
 			if(getBookById(update.id).isPresent()) return Optional.of("This new id is already taken");

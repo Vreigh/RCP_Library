@@ -3,6 +3,7 @@ package library01.filter;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
+import library01.bookapi.IBook;
 import library01.model.Book;
 
 public class BookFilter extends ViewerFilter {
@@ -18,7 +19,7 @@ public class BookFilter extends ViewerFilter {
             return true;
         }
         
-        Book book = (Book) element;
+        IBook book = (IBook) element;
         if (book.getId().matches(searchString)) {
             return true;
         }

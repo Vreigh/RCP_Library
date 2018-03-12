@@ -9,6 +9,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Shell;
 
+import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
 import library01.model.Book;
 import library01.model.BookUpdateData;
@@ -32,17 +33,17 @@ public class TitleEditingSupport extends EditingSupport {
 
     @Override
     protected boolean canEdit(Object element) {
-        return ((Book)element).editionSet();
+        return ((IBook)element).editionSet();
     }
 
     @Override
     protected Object getValue(Object element) {
-        return ((Book) element).getTitle();
+        return ((IBook) element).getTitle();
     }
 
     @Override
     protected void setValue(Object element, Object userInputValue) {
-    	Book book = (Book) element;
+    	IBook book = (IBook) element;
     	String input = String.valueOf(userInputValue);
     	BookUpdateData update = new BookUpdateData(null, null, input, null, null, null, null);
     	

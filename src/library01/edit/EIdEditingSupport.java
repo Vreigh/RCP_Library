@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Shell;
 
+import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
 import library01.model.Book;
 import library01.model.BookUpdateData;
@@ -25,12 +26,12 @@ public class EIdEditingSupport extends TitleEditingSupport{
 
     @Override
     protected Object getValue(Object element) {
-        return ((Book) element).getEId();
+        return ((IBook) element).getEId();
     }
 
     @Override
     protected void setValue(Object element, Object userInputValue) {
-    	Book book = (Book) element;
+    	IBook book = (IBook) element;
     	String input = String.valueOf(userInputValue);
     	BookUpdateData update = new BookUpdateData(null, input, null, null, null, null, null);
     	

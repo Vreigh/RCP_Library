@@ -4,6 +4,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 
+import library01.bookapi.IBook;
 import library01.model.Book;
 
 public class ByColumnViewerComparator extends ViewerComparator { // dynamiczne sortowanie (po różnych kolumnach)
@@ -33,8 +34,8 @@ public class ByColumnViewerComparator extends ViewerComparator { // dynamiczne s
 
     @Override
     public int compare(Viewer viewer, Object e1, Object e2) {
-        Book b1 = (Book) e1;
-        Book b2 = (Book) e2;
+        IBook b1 = (IBook) e1;
+        IBook b2 = (IBook) e2;
         int rc = 0;
         switch (propertyIndex) { // kolejnosc musi byc taka sama jak przy tworzeniu kolumn
         case 0:

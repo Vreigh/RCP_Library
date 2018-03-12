@@ -10,6 +10,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
+import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
 import library01.model.Book;
 import library01.model.BookUpdateData;
@@ -39,13 +40,13 @@ public class AvailableEditingSupport extends EditingSupport {
 
     @Override
     protected Object getValue(Object element) {
-        return ((Book)element).getAvailable();
+        return ((IBook)element).getAvailable();
     }
 
     @Override
     protected void setValue(Object element, Object userInputValue) {
     	if (MessageDialog.openConfirm(parentShell, "Confirmation","Change the status of that book?")) {
-    		Book book = (Book) element;
+    		IBook book = (Book) element;
         	Boolean input = (Boolean)userInputValue;
         	
         	BookUpdateData update = new BookUpdateData(null, null, null, null, null, null, input);

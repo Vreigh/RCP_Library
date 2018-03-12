@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.swt.widgets.Shell;
 
-import library01.dataprovider.book.BookProvider;
+import library01.bookapi.BookProvider;
 import library01.dataprovider.book.BookProviderMock;
 import library01.dataprovider.book.BookProviderXML;
 import library01.parts.IndexView;

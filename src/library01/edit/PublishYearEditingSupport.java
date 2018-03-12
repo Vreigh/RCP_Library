@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Shell;
 
+import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
 import library01.model.Book;
 import library01.model.BookUpdateData;
@@ -20,13 +21,13 @@ public class PublishYearEditingSupport extends TitleEditingSupport{
     
     @Override
     protected Object getValue(Object element) {
-        return ((Book) element).getPublishYear().toString(); // w edycji wyswietlam -x. Mam gwarancje, ze to nie bedzie MIN_VALUE, 
+        return ((IBook) element).getPublishYear().toString(); // w edycji wyswietlam -x. Mam gwarancje, ze to nie bedzie MIN_VALUE, 
         // bo do edycji roku wydania edycja musi byc ustawiona 
     }
 
     @Override
     protected void setValue(Object element, Object userInputValue) {
-    	Book book = (Book) element;
+    	IBook book = (IBook) element;
     	String tmp = String.valueOf(userInputValue);
     	Integer input;
     	try {
