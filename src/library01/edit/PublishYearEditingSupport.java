@@ -8,8 +8,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
-import library01.model.Book;
-import library01.model.BookUpdateData;
 
 public class PublishYearEditingSupport extends TitleEditingSupport{
 	private final TableViewer viewer;
@@ -37,12 +35,10 @@ public class PublishYearEditingSupport extends TitleEditingSupport{
     		return;
     	}
     	
-    	BookUpdateData update = new BookUpdateData(null, null, null, null, null, input, null);
-    	
-    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), update);
+    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, null, null, null, input, null);
     	
     	if(!error.isPresent()) {
-    		book.update(update);
+    		book.update(null, null, null, null, null, input, null);
     		viewer.refresh(); // odswiez wszystko (po kilka rzedow moglo sie zmienic
     	}else {
     		MessageDialog.openError(parentShell, "Invalid data", error.get());

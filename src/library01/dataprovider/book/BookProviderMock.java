@@ -1,7 +1,6 @@
 package library01.dataprovider.book;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,10 +8,9 @@ import library01.bookapi.BookProvider;
 import library01.bookapi.IBook;
 import library01.model.Book;
 import library01.model.BookEdition;
-import library01.model.BookUpdateData;
 
 public class BookProviderMock implements BookProvider {
-	private List<IBook> books;
+	private List<Book> books;
 	private List<BookEdition> editions;
 	
 	public BookProviderMock() {
@@ -25,7 +23,7 @@ public class BookProviderMock implements BookProvider {
 		editions.add(new BookEdition("1254-XYZ", "Pet Sematary", "Stephen King", "horror", 1983));
 		editions.add(new BookEdition("7124-XYZ", "Zbrodnia i Kara", "Fiodor Dostojewski", "proza psychologiczna", 1866));
 		
-		books = new ArrayList<IBook>();
+		books = new ArrayList<Book>();
 		books.add(new Book("7239357", "7354-XYZ", true));
 		books.add(new Book("3242423", "7354-XYZ", false));
 		books.add(new Book("723234357", "7354-XYZ", false));
@@ -49,66 +47,65 @@ public class BookProviderMock implements BookProvider {
 	}
 	
 	public List<IBook> getBooks(){
-		List<IBook> booksClone = new ArrayList<IBook>(books);
-		List<BookEdition> editionsClone = new ArrayList<BookEdition>(editions);
-		for(IBook book : booksClone) {
-			Optional<BookEdition> edition = getBookEditionById(editionsClone, book.getEId());
+		for(Book book : books) {
+			Optional<BookEdition> edition = getBookEditionById(book.getEId());
 			book.setEdition(edition);
 		}
-		return booksClone;
+		return new ArrayList<IBook>(books);
 	}
 	
 	public Optional<IBook> getBookById(String id) {
-		Optional<IBook> book = books.stream().filter(s -> s.getId().equals(id)).findFirst();
+		if(id == null) return Optional.empty();
+		Optional<Book> book = books.stream().filter(s -> s.getId().equals(id)).findFirst();
 		if(book.isPresent()) {
 			Optional<BookEdition> edition = getBookEditionById(book.get().getEId());
 			book.get().setEdition(edition);
-		}
-		return book;
+			return Optional.of(book.get());
+		}else return Optional.empty();
 	}
 	
 	private Optional<BookEdition> getBookEditionById(String id){
 		return editions.stream().filter(s -> s.getId().equals(id)).findFirst();
 	}
-	private Optional<BookEdition> getBookEditionById(List<BookEdition> editions, String id){
-		return editions.stream().filter(s -> s.getId().equals(id)).findFirst();
-	} 
 	
-	public Optional<String> addNewBook(BookUpdateData data) {
-		if(getBookById(data.id).isPresent()) {
+	public Optional<String> createBook(String id, String eId, String title, String author, 
+			String genre, Integer publishYear, Boolean available) throws IllegalArgumentException  {
+		if(getBookById(id).isPresent()) {
 			return Optional.of("Book with given id already exists!");
 		}
-		
-		Optional<String> error = data.validateCreateWithEdition();
-		if(error.isPresent()) return error;
-		
-		if(data.title != null) {
-			editions.add(new BookEdition(data.eId, data.title, data.author, data.genre, data.publishYear));
+		if(getBookEditionById(eId).isPresent() && title != null) {
+			return Optional.of("Book edition with given EID already exists - please fill only ID and EID fields");
+		}
+		Book book = new Book(id, eId, title, author, genre, publishYear, available);
+		if(book.editionSet()) {
+			editions.add(book.getEdition().get());
 		}
 		
-		books.add(new Book(data.id, data.eId, data.available));
+		books.add(book);
 		
 		return Optional.empty();
 	}
 	public void deleteBook(String id) {
-		Optional<IBook> book = getBookById(id);
+		Optional<Book> book = books.stream().filter(s -> s.getId().equals(id)).findFirst();
 		if(book.isPresent()) books.remove(book.get());
 	}
 	
-	public Optional<String> updateBook(String id, BookUpdateData update) {
-		Optional<String> error = update.validatePresent();
-		if(error.isPresent()) return error;
-		
-		Optional<IBook> old = getBookById(id);
+	public Optional<String> updateBook(String id, String nId, String eId, String title, String author, 
+			String genre, Integer publishYear, Boolean available) throws IllegalArgumentException{
+
+		Optional<Book> old = books.stream().filter(s -> s.getId().equals(id)).findFirst();
 		if(!old.isPresent()) return Optional.of("Requested Book not found, cant update");
-		if((update.id != null) && (!update.id.equals(id))) {
-			if(getBookById(update.id).isPresent()) return Optional.of("This new id is already taken");
+		
+		if((nId != null) && (!nId.equals(id))) {
+			if(getBookById(nId).isPresent()) return Optional.of("This new id is already taken");
 		}
-		if(update.eId != null) {
-			Optional<BookEdition> edition = getBookEditionById(update.eId);
+		
+		if(eId != null) {
+			Optional<BookEdition> edition = getBookEditionById(eId);
 			old.get().setEdition(edition);
 		}
 		// ok
-		return old.get().update(update);
+		old.get().update(id, eId, title, author, genre, publishYear,available);
+		return Optional.empty();
 	}
 }

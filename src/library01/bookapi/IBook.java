@@ -1,9 +1,5 @@
 package library01.bookapi;
 
-import java.util.Optional;
-
-import library01.model.BookEdition;
-import library01.model.BookUpdateData;
 
 public interface IBook {
 	public String getId();
@@ -22,10 +18,8 @@ public interface IBook {
     
     public Boolean getAvailable();
     
-    public Optional<String> update(BookUpdateData update);
+    public void update(String id, String eId, String title, String author, String genre, Integer publishYear, Boolean available);
     
     public Boolean editionSet(); // czy wszystkie dane ksiazki uzupelnione
     
-    public void setEdition(Optional<BookEdition> edition);
-
 }

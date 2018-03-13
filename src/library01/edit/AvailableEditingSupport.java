@@ -12,8 +12,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
-import library01.model.Book;
-import library01.model.BookUpdateData;
 
 public class AvailableEditingSupport extends EditingSupport {
 	private final TableViewer viewer;
@@ -46,15 +44,13 @@ public class AvailableEditingSupport extends EditingSupport {
     @Override
     protected void setValue(Object element, Object userInputValue) {
     	if (MessageDialog.openConfirm(parentShell, "Confirmation","Change the status of that book?")) {
-    		IBook book = (Book) element;
+    		IBook book = (IBook) element;
         	Boolean input = (Boolean)userInputValue;
-        	
-        	BookUpdateData update = new BookUpdateData(null, null, null, null, null, null, input);
-        	
-        	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), update);
+        		
+        	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, null, null, null, null, input);
         	
         	if(!error.isPresent()) {
-        		book.update(update);
+        		book.update(null, null, null, null, null, null, input);
         		viewer.update(element, null); // wystarczy updatowac ten jeden element
         	}else {
         		MessageDialog.openError(parentShell, "Invalid data", error.get());

@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import library01.dataprovider.DataProvider;
-import library01.model.BookUpdateData;
 
 public class AddBookDialog extends TitleAreaDialog {
 	private Text idTxt;
@@ -123,7 +122,7 @@ public class AddBookDialog extends TitleAreaDialog {
     @Override
     protected void okPressed() {
         saveInput();
-    	Optional<String> error = DataProvider.INSTANCE.addNewBook(get());
+    	Optional<String> error = DataProvider.INSTANCE.createBook(id, eId, title, author, genre, publishYear, true);
     	if(error.isPresent()) {
     		MessageDialog.openError(parentShell, "Invalid data", error.get());
     	}else {
@@ -131,9 +130,5 @@ public class AddBookDialog extends TitleAreaDialog {
     		super.okPressed();
     	}
          
-    }
-    
-    public BookUpdateData get() {
-    	return new BookUpdateData(id, eId, title, author, genre, publishYear, true);
     }
 }

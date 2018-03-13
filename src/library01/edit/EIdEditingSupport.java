@@ -8,8 +8,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
-import library01.model.Book;
-import library01.model.BookUpdateData;
 
 public class EIdEditingSupport extends TitleEditingSupport{
 	private final TableViewer viewer;
@@ -33,9 +31,8 @@ public class EIdEditingSupport extends TitleEditingSupport{
     protected void setValue(Object element, Object userInputValue) {
     	IBook book = (IBook) element;
     	String input = String.valueOf(userInputValue);
-    	BookUpdateData update = new BookUpdateData(null, input, null, null, null, null, null);
     	
-    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), update);
+    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, input, null, null, null, null, null);
     	
     	if(!error.isPresent()) {
     		viewer.setInput(DataProvider.INSTANCE.getBooks());

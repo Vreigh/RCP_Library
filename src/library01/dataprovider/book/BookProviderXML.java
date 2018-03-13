@@ -1,7 +1,6 @@
 package library01.dataprovider.book;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +25,6 @@ import library01.bookapi.BookProvider;
 import library01.bookapi.IBook;
 import library01.model.Book;
 import library01.model.BookEdition;
-import library01.model.BookUpdateData;
 
 public class BookProviderXML implements BookProvider {
 	private File source;
@@ -35,7 +33,7 @@ public class BookProviderXML implements BookProvider {
 		this.source = source;
 		
 		List<BookEdition> editions = loadEditions();
-		List<IBook> books = loadBooks();
+		List<IBook> books = loadBooks(editions);
 		
 		// Tutaj dodtakowa walidacja, np sprawdzanie, czy id i eid są unikalne
 	}
@@ -50,13 +48,7 @@ public class BookProviderXML implements BookProvider {
 			String genre = eElement.getAttribute("genre");
 			Integer publishYear = Integer.valueOf(eElement.getAttribute("publishYear"));
 			
-			BookUpdateData data = new BookUpdateData(null, id, title, author, genre, publishYear, null);
-			Optional<String> error = data.validateEdition();
-			if(error.isPresent()) {
-				throw new Exception("XML file format error!");
-			}
-			return new BookEdition(data);
-			
+			return new BookEdition(id, title, author, genre, publishYear);
 		}else {
 			throw new Exception("XML file format error!");
 		}
@@ -70,13 +62,7 @@ public class BookProviderXML implements BookProvider {
 			String eId = eElement.getAttribute("eId");
 			Boolean available = Boolean.valueOf(eElement.getAttribute("available"));
 			
-			BookUpdateData data = new BookUpdateData(id, eId, null, null, null, null, available);
-			Optional<String> error = data.validateCreate();
-			if(error.isPresent()) {
-				throw new Exception("XML file format error!");
-			}
-			return new Book(data);
-			
+			return new Book(id, eId, available);
 		}else {
 			throw new Exception("XML file format error!");
 		}
@@ -101,7 +87,7 @@ public class BookProviderXML implements BookProvider {
 		}
 	}
 	
-	private List<IBook> loadBooks() throws Exception{
+	private List<IBook> loadBooks(List<BookEdition> editions) throws Exception{ 
 		synchronized(source) {
 			List<IBook> books = new ArrayList<IBook>();
 			
@@ -113,7 +99,9 @@ public class BookProviderXML implements BookProvider {
 
 			for (int i = 0; i < nList.getLength(); i++) {
 				Node nNode = nList.item(i);
-				books.add(getBookFromNode(nNode));
+				Book book = getBookFromNode(nNode);
+				book.setEdition(editions.stream().filter(s -> s.getId().equals(book.getEId())).findFirst());
+				books.add(book);
 			}
 			return books;
 		}
@@ -121,11 +109,7 @@ public class BookProviderXML implements BookProvider {
 	
 	public List<IBook> getBooks() throws Exception{
 		List<BookEdition> editions = loadEditions();
-		List<IBook> books = loadBooks();
-		for(IBook book : books) {
-			Optional<BookEdition> edition = editions.stream().filter(s -> s.getId().equals(book.getEId())).findFirst();
-			book.setEdition(edition);
-		}
+		List<IBook> books = loadBooks(editions);
 		return books;
 	}
 	public Optional<IBook> getBookById(String id) throws Exception{
@@ -147,23 +131,24 @@ public class BookProviderXML implements BookProvider {
 			}else throw new Exception("XML file format error - multiple elements with same id!");
 		}
 	}
-	public Optional<String> addNewBook(BookUpdateData data) throws Exception{
-		if(getBookById(data.id).isPresent()) {
+	public Optional<String> createBook(String id, String eId, String title, String author, 
+			String genre, Integer publishYear, Boolean available) throws Exception{
+		
+		if(getBookById(id).isPresent()) {
 			return Optional.of("Book with given id already exists!");
 		}
+		// getBookEditionById + title set, to blad
 		
-		Optional<String> error = data.validateCreateWithEdition();
-		if(error.isPresent()) return error;
-		
-		if(data.title != null) {
-			addNewBookEditionXML(data);
+		Book book = new Book(id, eId, title, author, genre, publishYear, available);
+		if(book.editionSet()) {
+			addNewBookEditionXML(book.getEdition().get());
 		}
 		
-		addNewBookXML(data);
+		addNewBookXML(book);
 		
 		return Optional.empty();
 	}
-	private void addNewBookEditionXML(BookUpdateData data) throws Exception {
+	private void addNewBookEditionXML(BookEdition data) throws Exception {
 		synchronized(source) {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -173,17 +158,17 @@ public class BookProviderXML implements BookProvider {
 			
 			Node editionNode = doc.createElement("edition");
 			Element edition = (Element) editionNode;
-			edition.setAttribute("id", data.eId);
-			edition.setAttribute("title", data.title);
-			edition.setAttribute("author", data.author);
-			edition.setAttribute("genre", data.genre);
-			edition.setAttribute("publishYear", String.valueOf(data.publishYear));
+			edition.setAttribute("id", data.getId());
+			edition.setAttribute("title", data.getTitle());
+			edition.setAttribute("author", data.getAuthor());
+			edition.setAttribute("genre", data.getGenre());
+			edition.setAttribute("publishYear", String.valueOf(data.getPublishYear()));
 			
 			editions.appendChild(editionNode);
 			saveDocument(doc);
 		}
 	}
-	private void addNewBookXML(BookUpdateData data) throws Exception {
+	private void addNewBookXML(Book data) throws Exception {
 		synchronized(source) {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -193,9 +178,9 @@ public class BookProviderXML implements BookProvider {
 			
 			Node bookNode = doc.createElement("book");
 			Element book = (Element) bookNode;
-			book.setAttribute("id", data.eId);
-			book.setAttribute("eId", data.eId);
-			book.setAttribute("available", String.valueOf(data.available));
+			book.setAttribute("id", data.getId());
+			book.setAttribute("eId", data.getEId());
+			book.setAttribute("available", String.valueOf(data.getAvailable()));
 			
 			System.out.println("Hello World!");
 			
@@ -234,10 +219,10 @@ public class BookProviderXML implements BookProvider {
 			}else throw new Exception("XML file format error - multiple elements with same id!");
 		}
 	}
-	public Optional<String> updateBook(String id, BookUpdateData update) throws Exception{
-		Optional<String> error = update.validatePresent();
-		if(error.isPresent()) return error;
-		
+	public Optional<String> updateBook(String id, String nId, String eId, String title, String author, 
+			String genre, Integer publishYear, Boolean available) throws Exception{
+		Book.validate(nId, eId);
+		BookEdition.validate(title, author, genre, publishYear);
 		synchronized(source) {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -252,8 +237,8 @@ public class BookProviderXML implements BookProvider {
 				return Optional.of("Requested Book not found, cant update");
 			}else if(matchingBooks.getLength() == 1) {
 				Node bookNode = matchingBooks.item(0);
-				if((update.id != null) && (!update.id.equals(id))) {
-					XPathExpression newBookSearch = xpath.compile("/bookData/books/book[@id=\"" + update.id + "\"]");
+				if((nId != null) && (!nId.equals(id))) {
+					XPathExpression newBookSearch = xpath.compile("/bookData/books/book[@id=\"" + nId + "\"]");
 					matchingBooks = (NodeList)newBookSearch.evaluate(doc, XPathConstants.NODESET);
 					if(matchingBooks.getLength() == 1) {
 						return Optional.of("This new id is already taken");
@@ -264,8 +249,8 @@ public class BookProviderXML implements BookProvider {
 				Element book = (Element) bookNode;
 				Node editionToUpdate = null;
 				
-				if(update.eId != null) {
-					XPathExpression editionSearch = xpath.compile("/bookData/editions/edition[@id=\"" + update.eId + "\"]");
+				if(eId != null) {
+					XPathExpression editionSearch = xpath.compile("/bookData/editions/edition[@id=\"" + eId + "\"]");
 					NodeList matchingEditions = (NodeList)editionSearch.evaluate(doc, XPathConstants.NODESET);
 					if(matchingEditions.getLength() == 0) {
 						//
@@ -284,15 +269,15 @@ public class BookProviderXML implements BookProvider {
 				
 				if(editionToUpdate != null) {
 					Element edition = (Element) editionToUpdate;
-					if(update.title != null) edition.setAttribute("title", update.title);
-					if(update.author != null) edition.setAttribute("title", update.author);
-					if(update.genre != null) edition.setAttribute("title", update.genre);
-					if(update.publishYear != null) edition.setAttribute("publishYear", String.valueOf(update.publishYear));
+					if(title != null) edition.setAttribute("title", title);
+					if(author != null) edition.setAttribute("title", author);
+					if(genre != null) edition.setAttribute("title", genre);
+					if(publishYear != null) edition.setAttribute("publishYear", String.valueOf(publishYear));
 				}
 				
-				if(update.id != null) book.setAttribute("id", update.id);
-				if(update.eId != null) book.setAttribute("eId", update.eId);
-				if(update.available != null) book.setAttribute("available", String.valueOf(update.available));
+				if(nId != null) book.setAttribute("id", nId);
+				if(eId != null) book.setAttribute("eId", eId);
+				if(available != null) book.setAttribute("available", String.valueOf(available));
 				
 			}else throw new Exception("XML file format error - multiple elements with same id!");
 			

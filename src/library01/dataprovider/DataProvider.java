@@ -1,36 +1,11 @@
 package library01.dataprovider;
 
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
-
-import javax.inject.Inject;
-
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-
 import library01.bookapi.BookProvider;
 import library01.bookapi.IBook;
-import library01.dataprovider.book.BookProviderMock;
-import library01.dataprovider.book.BookProviderXML;
-import library01.model.Book;
-import library01.model.BookUpdateData;
-import library01.parts.IndexView;
 import library01.setup.Setupper;
-import library01.tasks.CheckerXMLTask;
 
-import org.eclipse.core.runtime.ICoreRunnable;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.core.runtime.jobs.ProgressProvider;
-import org.eclipse.e4.ui.di.UISynchronize;
-import org.eclipse.swt.SWT;
 
 public class DataProvider {
 	public static DataProvider INSTANCE;
@@ -62,9 +37,10 @@ public class DataProvider {
 			return Optional.empty();
 		}
 	}
-	public Optional<String> addNewBook(BookUpdateData data) {
+	public Optional<String> createBook(String id, String eId, String title, String author, 
+			String genre, Integer publishYear, Boolean Available) {
 		try {
-			return bookProvider.addNewBook(data);
+			return bookProvider.createBook(id, eId, title, author, genre,  publishYear, Available);
 		}catch(Throwable e) {
 			return Optional.of(e.getMessage());
 		}
@@ -77,9 +53,10 @@ public class DataProvider {
 		}
 		
 	}
-	public Optional<String> updateBook(String id, BookUpdateData update) {
+	public Optional<String> updateBook(String id,String nId, String eId, String title, String author, 
+			String genre, Integer publishYear, Boolean Available) {
 		try {
-			return bookProvider.updateBook(id, update);
+			return bookProvider.updateBook(id,nId, eId, title, author, genre, publishYear, Available);
 		}catch(Throwable e) {
 			return Optional.of(e.getMessage());
 		}
