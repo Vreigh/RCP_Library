@@ -37,10 +37,10 @@ public class DataProvider {
 			return Optional.empty();
 		}
 	}
-	public Optional<String> createBook(String id, String eId, String title, String author, 
-			String genre, Integer publishYear, Boolean available) {
+	public Optional<String> createBook(String id, String eId, Integer condition, String title, String author, 
+			String genre, Integer publishYear, String description, Boolean available) {
 		try {
-			return bookProvider.createBook(id, eId, title, author, genre,  publishYear, available);
+			return bookProvider.createBook(id, eId, condition, title, author, genre,  publishYear, description, available);
 		}catch(Throwable e) {
 			return Optional.of(e.getMessage());
 		}
@@ -53,10 +53,10 @@ public class DataProvider {
 		}
 		
 	}
-	public Optional<String> updateBook(String id,String nId, String eId, String title, String author, 
-			String genre, Integer publishYear, Boolean Available) {
+	public Optional<String> updateBook(String id,String nId, String eId, Integer condition, String title, String author, 
+			String genre, Integer publishYear, String description, Boolean Available) {
 		try {
-			return bookProvider.updateBook(id,nId, eId, title, author, genre, publishYear, Available);
+			return bookProvider.updateBook(id,nId, eId, condition, title, author, genre, publishYear, description, Available);
 		}catch(Throwable e) {
 			return Optional.of(e.getMessage());
 		}

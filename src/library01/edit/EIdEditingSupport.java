@@ -32,7 +32,7 @@ public class EIdEditingSupport extends TitleEditingSupport{
     	IBook book = (IBook) element;
     	String input = String.valueOf(userInputValue);
     	
-    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, input, null, null, null, null, null);
+    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, input, null, null, null, null, null, null, null);
     	
     	if(!error.isPresent()) {
     		viewer.setInput(DataProvider.INSTANCE.getBooks());

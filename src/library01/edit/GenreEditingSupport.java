@@ -27,10 +27,10 @@ public class GenreEditingSupport extends TitleEditingSupport {
     	IBook book = (IBook) element;
     	String input = String.valueOf(userInputValue);
    	
-    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, null, null, input, null, null);
+    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, null, null, null, input, null, null, null);
     	
     	if(!error.isPresent()) {
-    		book.update(null, null, null, null, input, null, null);
+    		book.update(null, null, null, null, null, input, null, null, null);
     		viewer.refresh(); // odswiez wszystko (po kilka rzedow moglo sie zmienic)
     	}else {
     		MessageDialog.openError(parentShell, "Invalid data", error.get());

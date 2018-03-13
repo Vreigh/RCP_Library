@@ -65,7 +65,7 @@ public class BookIndex implements IndexView{
 	@PostConstruct
 	public void createComposite(Composite parent) {
 		parentShell = parent.getShell();
-		parentShell.setSize(1000, 700);
+		parentShell.setBounds(200, 200, 1150, 700);
 		GridLayout layout = new GridLayout(2, false);
         parent.setLayout(layout);
         
@@ -121,11 +121,13 @@ public class BookIndex implements IndexView{
 	
 	// tworzenie kolumn dla widoku
     private void createColumns(final Composite parent, final TableViewer viewer) {
-        String[] titles = { "ID", "EID", "Title", "Author", "Genre", "Publish Year", "Available?"};
-        int[] bounds = { 110, 110, 150, 150, 200, 120, 90};
+        String[] titles = { "ID", "EID", "Title", "Author", "Genre", "Publish Year", "Condition", "Available?"};
+        int[] bounds = { 110, 110, 180, 180, 180, 120, 160, 100};
+        
+        Integer i = 0;
 
         // ID
-        TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
+        TableViewerColumn col = createTableViewerColumn(titles[i], bounds[i], i);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
@@ -133,9 +135,10 @@ public class BookIndex implements IndexView{
             }
         });
         col.setEditingSupport(new IdEditingSupport(viewer, parentShell));
+        i++;
         
         // EID
-        col = createTableViewerColumn(titles[1], bounds[1], 1);
+        col = createTableViewerColumn(titles[i], bounds[i], i);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
@@ -143,9 +146,10 @@ public class BookIndex implements IndexView{
             }
         });
         col.setEditingSupport(new EIdEditingSupport(viewer, parentShell));
-
+        i++;
+        
         // Title
-        col = createTableViewerColumn(titles[2], bounds[2], 2);
+        col = createTableViewerColumn(titles[i], bounds[i], i);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
@@ -153,9 +157,10 @@ public class BookIndex implements IndexView{
             }
         });
         col.setEditingSupport(new TitleEditingSupport(viewer, parentShell));
+        i++;
 
         // Author
-        col = createTableViewerColumn(titles[3], bounds[3], 3);
+        col = createTableViewerColumn(titles[i], bounds[i], i);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
@@ -163,9 +168,10 @@ public class BookIndex implements IndexView{
             }
         });
         col.setEditingSupport(new AuthorEditingSupport(viewer, parentShell));
+        i++;
         
         // Genre
-        col = createTableViewerColumn(titles[4], bounds[4], 4);
+        col = createTableViewerColumn(titles[i], bounds[i], i);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
@@ -173,9 +179,10 @@ public class BookIndex implements IndexView{
             }
         });
         col.setEditingSupport(new GenreEditingSupport(viewer, parentShell));
+        i++;
         
         // Publish Year
-        col = createTableViewerColumn(titles[5], bounds[5], 5);
+        col = createTableViewerColumn(titles[i], bounds[i], i);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public void update(ViewerCell cell) {
@@ -183,9 +190,21 @@ public class BookIndex implements IndexView{
             }
         });
         col.setEditingSupport(new PublishYearEditingSupport(viewer, parentShell));
+        i++;
+        
+        // CON
+        col = createTableViewerColumn(titles[i], bounds[i], i);
+        col.setLabelProvider(new ColumnLabelProvider() {
+            @Override
+            public void update(ViewerCell cell) {
+            	cell.setText(((IBook) cell.getElement()).getConditionString());
+            }
+        });
+        //col.setEditingSupport(new EIdEditingSupport(viewer, parentShell));
+        i++;
         
         // Available
-        col = createTableViewerColumn(titles[6], bounds[6], 6);
+        col = createTableViewerColumn(titles[i], bounds[i], i);
         col.setLabelProvider(new ColumnLabelProvider() {
         	@Override
             public String getText(Object element) {

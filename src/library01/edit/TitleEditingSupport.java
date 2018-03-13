@@ -44,10 +44,10 @@ public class TitleEditingSupport extends EditingSupport {
     	IBook book = (IBook) element;
     	String input = String.valueOf(userInputValue);
     	
-    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, input, null, null, null, null);
+    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, null, input, null, null, null, null, null);
     	
     	if(!error.isPresent()) {
-    		book.update(null, null, input, null, null, null, null);
+    		book.update(null, null, null, input, null, null, null, null, null);
     		viewer.refresh();
     	}else {
     		MessageDialog.openError(parentShell, "Invalid data", error.get());

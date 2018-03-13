@@ -40,7 +40,7 @@ public class ByColumnViewerComparator extends ViewerComparator { // dynamiczne s
     
     private int compare(Integer a, Integer b) {
     	if(a == null) a = Integer.MIN_VALUE;
-    	if(b == null) b= Integer.MIN_VALUE;
+    	if(b == null) b = Integer.MIN_VALUE;
     	return a.compareTo(b);
     }
 
@@ -69,6 +69,9 @@ public class ByColumnViewerComparator extends ViewerComparator { // dynamiczne s
         	rc = compare(b1.getPublishYear(), b2.getPublishYear());
             break;
         case 6:
+        	rc = compare(b1.getCondition(), b2.getCondition());
+            break;
+        case 7:
         	rc = b1.getAvailable().compareTo(b2.getAvailable());
             break;
         default:

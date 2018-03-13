@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><bookData>
 	<editions>
-		<edition author="Terry Pratchett" genre="science-fiction" id="7354-XYZ" publishYear="2008" title="science-fiction"/>
-		<edition author="Stephen King" genre="dark fantasy" id="1324-ZYZ" publishYear="1996" title="Green Mile"/>
-		<edition author="Helen Palmer" genre="psychology" id="8124-XYI" publishYear="1988" title="psychology"/>
-		<edition author="Zbigniew Skoczylas" genre="matematyka" id="7124-XAZ" publishYear="2011" title="matematyka"/>
-		<edition author="Terry Pratchett" genre="fantasy" id="8211-AYZ" publishYear="1983" title="The Colour of Magic"/>
-		<edition author="Stephen King" genre="horror" id="1254-XYZ" publishYear="1983" title="Pet Sematary"/>
-		<edition author="Fiodor Dostojewski" genre="proza psychologiczna" id="7124-XYZ" publishYear="1866" title="proza psychologiczna"/>
-	<edition author="aaaaaaaa" genre="aaaaaaa" id="aaaaaaaa" publishYear="1885" title="aaaaaaaaa"/><edition author="dsfdsf" genre="dsfdsf" id="aaaaa" publishYear="1885" title="dsfdsffdg"/><edition author="sdfdsfdsf" genre="sdfdsfds" id="AAAAA" publishYear="-500" title="sdfdsfds"/><edition author="dsfdsfdsaf" genre="sdafdsfdsfds" id="dsfdfdsfadf" publishYear="1882" title="dsfdsafdsafdsaf"/></editions>
+		<edition author="Terry Pratchett" description="example" genre="science-fiction" id="7354-XYZ" publishYear="2008" title="Terry Pratchett"/>
+		<edition author="Stephen King" description="example" genre="dark fantasy" id="1324-ZYZ" publishYear="1996" title="Green Mile"/>
+		<edition author="Helen Palmer" description="example" genre="psychology" id="8124-XYI" publishYear="1988" title="psychology"/>
+		<edition author="Zbigniew Skoczylas" description="example" genre="matematyka" id="7124-XAZ" publishYear="2011" title="matematyka"/>
+		<edition author="Terry Pratchett" description="example" genre="fantasy" id="8211-AYZ" publishYear="1983" title="The Colour of Magic"/>
+		<edition author="Stephen King" description="example" genre="horror" id="1254-XYZ" publishYear="1983" title="Pet Sematary"/>
+		<edition author="Fiodor Dostojewski" description="example" genre="proza psychologiczna" id="7124-XYZ" publishYear="1866" title="proza psychologiczna"/>
+	<edition author="aaaaaaaa" description="example" genre="aaaaaaa" id="aaaaaaaa" publishYear="1885" title="aaaaaaaaa"/><edition author="dsfdsf" description="example" genre="dsfdsf" id="aaaaa" publishYear="1885" title="dsfdsffdg"/><edition author="sdfdsfdsf" description="example" genre="sdfdsfds" id="AAAAA" publishYear="-500" title="sdfdsfds"/><edition author="dsfdsfdsaf" description="example" genre="sdafdsfdsfds" id="dsfdfdsfadf" publishYear="1882" title="dsfdsafdsafdsaf"/></editions>
 
 	<books>
-		<book available="true" eId="7354-XYZ" id="7239357"/>
-		<book available="false" eId="7354-XYZ" id="3242423"/>
-		<book available="false" eId="7354-XYZ" id="723234357"/>
-		<book available="true" eId="1324-ZYZ" id="73453457"/>
-		<book available="true" eId="1324-ZYZ" id="72123357"/>
-		<book available="true" eId="8124-XYI" id="72234357"/>
-		<book available="false" eId="8124-XYI" id="239357"/>
-		<book available="true" eId="7124-XAZ" id="12313357"/>
-		<book available="true" eId="7124-XAZ" id="1123239357"/>
+		<book available="true" condition="2" eId="7354-XYZ" id="7239357"/>
+		<book available="false" condition="2" eId="7354-XYZ" id="3242423"/>
+		<book available="true" condition="2" eId="7354-XYZ" id="723234357"/>
+		<book available="true" condition="2" eId="1324-ZYZ" id="73453457"/>
+		<book available="true" condition="2" eId="1324-ZYZ" id="72123357"/>
+		<book available="true" condition="1" eId="8124-XYI" id="72234357"/>
+		<book available="false" condition="2" eId="8124-XYI" id="239357"/>
+		<book available="true" condition="2" eId="7124-XAZ" id="12313357"/>
+		<book available="true" condition="5" eId="7124-XAZ" id="1123239357"/>
 		
-		<book available="true" eId="8211-AYZ" id="23549357"/>
-		<book available="false" eId="1254-XYZ" id="123219357"/>
-		<book available="false" eId="1254-XYZ" id="2429357"/>
-		<book available="true" eId="7124-XYZ" id="123357"/>
-		<book available="true" eId="1254-XYU" id="8867357"/>
-	<book available="true" eId="8211-AYZ" id="aaaaa"/><book available="true" eId="8211-AYZ" id="dsfdsfdsfds"/></books>
+		<book available="true" condition="3" eId="8211-AYZ" id="23549357"/>
+		<book available="false" condition="2" eId="1254-XYZ" id="123219357"/>
+		<book available="false" condition="2" eId="1254-XYZ" id="2429357"/>
+		<book available="true" condition="3" eId="7124-XYZ" id="123357"/>
+		<book available="true" condition="2" eId="1254-XYU" id="8867357"/>
+	<book available="true" condition="2" eId="8211-AYZ" id="aaaaa"/><book available="true" condition="2" eId="8211-AYZ" id="dsfdsfdsfds"/></books>
 
 </bookData>

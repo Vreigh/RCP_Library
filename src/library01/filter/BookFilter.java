@@ -44,7 +44,10 @@ public class BookFilter extends ViewerFilter {
         if (search(book.getPublishYearString(), searchString)) {
             return true;
         }
-
+        if (search(book.getConditionString(), searchString)) {
+            return true;
+        }
+        
         return false;
     }
 }

@@ -37,9 +37,12 @@ public class BookProviderXML implements BookProvider {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(source);
+		doc.getDocumentElement().normalize();
 		
 		List<BookEdition> editions = loadEditions(doc);
 		List<IBook> books = loadBooks(editions, doc);
+		
+		saveDocument(doc);
 		
 		CheckerXMLTask checker = new CheckerXMLTask(source);
 		checker.start();
@@ -54,8 +57,9 @@ public class BookProviderXML implements BookProvider {
 			String author = eElement.getAttribute("author");
 			String genre = eElement.getAttribute("genre");
 			Integer publishYear = Integer.valueOf(eElement.getAttribute("publishYear"));
+			String description = eElement.getAttribute("description");
 			
-			return new BookEdition(id, title, author, genre, publishYear);
+			return new BookEdition(id, title, author, genre, publishYear, description);
 		}else {
 			throw new Exception("XML file format error!");
 		}
@@ -67,9 +71,10 @@ public class BookProviderXML implements BookProvider {
 			
 			String id = eElement.getAttribute("id");
 			String eId = eElement.getAttribute("eId");
+			Integer condition = Integer.valueOf(eElement.getAttribute("condition"));
 			Boolean available = Boolean.valueOf(eElement.getAttribute("available"));
 			
-			return new Book(id, eId, available);
+			return new Book(id, eId, condition, available);
 		}else {
 			throw new Exception("XML file format error!");
 		}
@@ -163,8 +168,8 @@ public class BookProviderXML implements BookProvider {
 			}else return Optional.empty();
 		}
 	}
-	public Optional<String> createBook(String id, String eId, String title, String author, 
-			String genre, Integer publishYear, Boolean available) throws Exception{
+	public Optional<String> createBook(String id, String eId, Integer condition, String title, String author, 
+			String genre, Integer publishYear, String description, Boolean available) throws Exception{
 		synchronized(source) {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -177,7 +182,7 @@ public class BookProviderXML implements BookProvider {
 				return Optional.of("Book edition with given EID already exists - please fill only ID and EID fields");
 			}
 			
-			Book book = new Book(id, eId, title, author, genre, publishYear, available);
+			Book book = new Book(id, eId, condition, title, author, genre, publishYear, description, available);
 			if(book.editionSet()) {
 				addNewBookEditionXML(doc, book.getEdition().get());
 			}
@@ -197,6 +202,7 @@ public class BookProviderXML implements BookProvider {
 		edition.setAttribute("author", data.getAuthor());
 		edition.setAttribute("genre", data.getGenre());
 		edition.setAttribute("publishYear", String.valueOf(data.getPublishYear()));
+		edition.setAttribute("description", data.getDescription());
 		
 		editions.appendChild(editionNode);
 		saveDocument(doc);
@@ -208,9 +214,8 @@ public class BookProviderXML implements BookProvider {
 		Element book = (Element) bookNode;
 		book.setAttribute("id", data.getId());
 		book.setAttribute("eId", data.getEId());
+		book.setAttribute("condition", String.valueOf(data.getCondition()));
 		book.setAttribute("available", String.valueOf(data.getAvailable()));
-		
-		System.out.println("Hello World!");
 		
 		books.appendChild(bookNode);
 		saveDocument(doc);
@@ -246,10 +251,10 @@ public class BookProviderXML implements BookProvider {
 			}else throw new Exception("XML file format error - multiple elements with same id!");
 		}
 	}
-	public Optional<String> updateBook(String id, String nId, String eId, String title, String author, 
-			String genre, Integer publishYear, Boolean available) throws Exception{
-		Book.validate(nId, eId);
-		BookEdition.validate(title, author, genre, publishYear);
+	public Optional<String> updateBook(String id, String nId, String eId, Integer condition, String title, String author, 
+			String genre, Integer publishYear, String description, Boolean available) throws Exception{
+		Book.validate(nId, eId, condition);
+		BookEdition.validate(title, author, genre, publishYear, description);
 		synchronized(source) {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -279,10 +284,12 @@ public class BookProviderXML implements BookProvider {
 					if(author != null) edition.setAttribute("title", author);
 					if(genre != null) edition.setAttribute("title", genre);
 					if(publishYear != null) edition.setAttribute("publishYear", String.valueOf(publishYear));
+					if(description != null) edition.setAttribute("description", description);
 				}
 				
 				if(nId != null) book.setAttribute("id", nId);
 				if(eId != null) book.setAttribute("eId", eId);
+				if(condition != null) book.setAttribute("condition", String.valueOf(condition));
 				if(available != null) book.setAttribute("available", String.valueOf(available));
 				
 				saveDocument(doc);

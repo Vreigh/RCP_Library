@@ -47,10 +47,10 @@ public class AvailableEditingSupport extends EditingSupport {
     		IBook book = (IBook) element;
         	Boolean input = (Boolean)userInputValue;
         		
-        	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, null, null, null, null, input);
+        	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, null, null, null, null, null, null, input);
         	
         	if(!error.isPresent()) {
-        		book.update(null, null, null, null, null, null, input);
+        		book.update(null, null, null, null, null, null, null, null, input);
         		viewer.update(element, null); // wystarczy updatowac ten jeden element
         	}else {
         		MessageDialog.openError(parentShell, "Invalid data", error.get());

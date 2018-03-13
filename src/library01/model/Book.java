@@ -11,26 +11,30 @@ import library01.bookapi.IBook;
 public class Book implements IBook {
 	private String id;
 	private String eId;
+	private Integer condition;
 	private Optional<BookEdition> edition = Optional.empty();
 	private Boolean available;
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
             this);
+	private String[] conditions = {"NOWA", "PRAWIE NOWA", "UŻYWANA", "NADNISZCZONA", "STARA", "B. STARA"};
 	
 	public Book() {
 	}
 	
-	public Book(String id, String eId, Boolean available) throws IllegalArgumentException {
-		if((id == null) || (eId == null) || (available == null)) throw new IllegalArgumentException("Book - Please fill only ID and EID fields or all the fields");
-		validate(id, eId);
+	public Book(String id, String eId, Integer condition, Boolean available) throws IllegalArgumentException {
+		if((id == null) || (eId == null) || (condition == null) || (available == null)) throw new IllegalArgumentException("Book - Please fill only ID, EID and Condition fields or all the fields");
+		validate(id, eId, condition);
 		this.id = id;
 		this.eId = eId;
+		this.condition = condition;
 		this.available = available;
 	}
 	
-	public Book(String id, String eId, String title, String author, String genre, Integer publishYear, Boolean available) throws IllegalArgumentException {
-		this(id, eId, available);
-		if((title == null) && (author == null) && (genre == null) && (publishYear == null)) return;
-		this.setEdition(Optional.of(new BookEdition(eId, title, author, genre, publishYear)));
+	public Book(String id, String eId, Integer condition, String title, String author, String genre, 
+			Integer publishYear, String description, Boolean available) throws IllegalArgumentException {
+		this(id, eId, condition, available);
+		if((title == null) && (author == null) && (genre == null) && (publishYear == null) && (description == null)) return;
+		this.setEdition(Optional.of(new BookEdition(eId, title, author, genre, publishYear, description)));
 	}
 	
 	public void addPropertyChangeListener(String propertyName,
@@ -48,6 +52,14 @@ public class Book implements IBook {
     
     public String getEId() {
     	return eId;
+    }
+    
+    public Integer getCondition() {
+    	return condition;
+    }
+    
+    public String getConditionString() {
+    	return conditions[getCondition()];
     }
     
     public String getTitle() {
@@ -84,6 +96,12 @@ public class Book implements IBook {
     	}else return year.toString();
     }
     
+    public String getDescription() {
+    	if(edition.isPresent()) {
+    		return edition.get().getDescription();
+    	}else return null;
+    }
+    
     public Boolean getAvailable() {
     	return available;
     }
@@ -100,6 +118,11 @@ public class Book implements IBook {
     private void setEId(String eId) {
         propertyChangeSupport.firePropertyChange("eId", this.eId,
                 this.eId = eId);
+    }
+    
+    private void setCondition(Integer condition) {
+        propertyChangeSupport.firePropertyChange("condition", this.condition,
+                this.condition = condition);
     }
     
     public Boolean editionSet() {
@@ -125,20 +148,22 @@ public class Book implements IBook {
         return "id: " + id + " eId: " + eId + " available: " + available;
     }
     
-    public void update(String id, String eId, String title, String author, String genre, 
-    		Integer publishYear, Boolean available) throws IllegalArgumentException {
-    	validate(id, eId);
-    	BookEdition.validate(title, author, genre, publishYear);
+    public void update(String id, String eId, Integer condition, String title, String author, String genre, 
+    		Integer publishYear, String description, Boolean available) throws IllegalArgumentException {
+    	validate(id, eId, condition);
+    	BookEdition.validate(title, author, genre, publishYear, description);
     	if(id != null) this.setId(id);
     	if(eId != null) this.setEId(eId);
+    	if(condition != null) this.setCondition(condition);
     	if(available != null) this.setAvailable(available);
     	if(edition.isPresent()) {
-    		edition.get().update(title, author, genre, publishYear);
+    		edition.get().update(title, author, genre, publishYear, description);
     	}
     }
     
-    public static void validate(String id, String eId) throws IllegalArgumentException{ // walidacja
+    public static void validate(String id, String eId, Integer condition) throws IllegalArgumentException{ // walidacja
     	if((id != null)&& (id.length() < 3)) throw new IllegalArgumentException("The ID field must be at least 3 characters long!");
 		if((eId != null)&&(eId.length() < 3)) throw new IllegalArgumentException("The EID field must be at least 3 characters long!");
+		if((condition != null) && ((condition > 5) || (condition < 0))) throw new IllegalArgumentException("Wrong format of the Condition");
 	}
 }

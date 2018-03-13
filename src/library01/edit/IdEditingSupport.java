@@ -32,10 +32,10 @@ public class IdEditingSupport extends TitleEditingSupport {
     	IBook book = (IBook) element;
     	String newId = String.valueOf(userInputValue);
     	
-    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), newId, null, null, null, null, null, null);
+    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), newId, null, null, null, null, null, null, null, null);
     	
     	if(!error.isPresent()) {
-    		book.update(newId, null, null, null, null, null, null);
+    		book.update(newId, null, null, null, null, null, null, null, null);
     		viewer.update(element, null); // wystarczy updatowac ten jeden element
     	}else {
     		MessageDialog.openError(parentShell, "Invalid data", error.get());

@@ -9,11 +9,11 @@ public interface BookProvider {
 	
 	public Optional<IBook> getBookById(String id) throws Throwable;
 	
-	public Optional<String> createBook(String id, String eId, String title, String author, 
-			String genre, Integer publishYear, Boolean Available) throws Throwable;
+	public Optional<String> createBook(String id, String eId, Integer condition, String title, String author, 
+			String genre, Integer publishYear, String description, Boolean Available) throws Throwable;
 	
-	public Optional<String> updateBook(String id, String nId, String eId, String title, String author, 
-			String genre, Integer publishYear, Boolean Available) throws Throwable;
+	public Optional<String> updateBook(String id, String nId, String eId, Integer condition, String title, String author, 
+			String genre, Integer publishYear, String description, Boolean Available) throws Throwable;
 	
 	public void deleteBook(String id) throws Throwable;
 	

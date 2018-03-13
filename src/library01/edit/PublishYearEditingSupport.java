@@ -34,10 +34,10 @@ public class PublishYearEditingSupport extends TitleEditingSupport{
     		return;
     	}
     	
-    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, null, null, null, input, null);
+    	Optional<String> error = DataProvider.INSTANCE.updateBook(book.getId(), null, null, null, null, null, null, input, null, null);
     	
     	if(!error.isPresent()) {
-    		book.update(null, null, null, null, null, input, null);
+    		book.update(null, null, null, null, null, null, input, null, null);
     		viewer.refresh(); // odswiez wszystko (po kilka rzedow moglo sie zmienic
     	}else {
     		MessageDialog.openError(parentShell, "Invalid data", error.get());
