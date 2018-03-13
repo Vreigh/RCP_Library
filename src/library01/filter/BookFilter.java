@@ -12,6 +12,12 @@ public class BookFilter extends ViewerFilter {
     public void setSearchText(String s) {
         this.searchString = ".*" + s + ".*";
     }
+    
+    private Boolean search(String a, String b) {
+    	if(a == null) a = "";
+    	if(b == null) b = "";
+    	return a.matches(b);
+    }
 
     @Override
     public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -20,22 +26,22 @@ public class BookFilter extends ViewerFilter {
         }
         
         IBook book = (IBook) element;
-        if (book.getId().matches(searchString)) {
+        if (search(book.getId(), searchString)) {
             return true;
         }
-        if(book.getEId().matches(searchString)) {
+        if(search(book.getEId(), searchString)) {
         	return true;
         }
-        if (book.getTitle().matches(searchString)) {
+        if (search(book.getTitle(), searchString)) {
             return true;
         }
-        if (book.getAuthor().matches(searchString)) {
+        if (search(book.getAuthor(), searchString)) {
             return true;
         }
-        if (book.getGenre().matches(searchString)) {
+        if (search(book.getGenre(), searchString)) {
             return true;
         }
-        if (book.getPublishYearString().matches(searchString)) {
+        if (search(book.getPublishYearString(), searchString)) {
             return true;
         }
 

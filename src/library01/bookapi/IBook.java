@@ -20,6 +20,4 @@ public interface IBook {
     
     public void update(String id, String eId, String title, String author, String genre, Integer publishYear, Boolean available);
     
-    public Boolean editionSet(); // czy wszystkie dane ksiazki uzupelnione
-    
 }

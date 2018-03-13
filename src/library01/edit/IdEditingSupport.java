@@ -3,10 +3,7 @@ package library01.edit;
 import java.util.Optional;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Shell;
 
 import library01.bookapi.IBook;

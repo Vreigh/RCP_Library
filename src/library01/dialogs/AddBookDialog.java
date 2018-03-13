@@ -101,13 +101,20 @@ public class AddBookDialog extends TitleAreaDialog {
     protected boolean isResizable() {
         return true;
     }
+    
+    private String override(String a) {
+    	if(a == null) return null;
+    	if(a.equals("")) {
+    		return null;
+    	}else return a;
+    }
 
     private void saveInput() { // tutaj mozna dolozyc pierwsza walidacje
-    	if(!idTxt.getText().equals("")) id = idTxt.getText();
-    	if(!eIdTxt.getText().equals("")) eId = eIdTxt.getText();
-    	if(!titleTxt.getText().equals("")) title = titleTxt.getText();
-    	if(!authorTxt.getText().equals("")) author = authorTxt.getText();
-    	if(!genreTxt.getText().equals("")) genre = genreTxt.getText();
+    	id = override(idTxt.getText());
+    	eId = override(eIdTxt.getText());
+    	title = override(titleTxt.getText());
+    	author = override(authorTxt.getText());
+    	genre = override(genreTxt.getText());
     	if(!publishYearTxt.getText().equals("")) {
     		try {
     			publishYear = Integer.valueOf(publishYearTxt.getText());

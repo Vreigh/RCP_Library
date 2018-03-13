@@ -11,7 +11,7 @@ import library01.bookapi.IBook;
 public class Book implements IBook {
 	private String id;
 	private String eId;
-	private Optional<BookEdition> edition;
+	private Optional<BookEdition> edition = Optional.empty();
 	private Boolean available;
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
             this);
@@ -20,7 +20,7 @@ public class Book implements IBook {
 	}
 	
 	public Book(String id, String eId, Boolean available) throws IllegalArgumentException {
-		if((id == null) || (eId == null) || (available == null)) throw new IllegalArgumentException("Please fill only ID and EID fields or all the fields");
+		if((id == null) || (eId == null) || (available == null)) throw new IllegalArgumentException("Book - Please fill only ID and EID fields or all the fields");
 		validate(id, eId);
 		this.id = id;
 		this.eId = eId;

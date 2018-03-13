@@ -31,6 +31,18 @@ public class ByColumnViewerComparator extends ViewerComparator { // dynamiczne s
             direction = DESCENDING;
         }
     }
+    
+    private int compare(String a, String b) {
+    	if(a == null) a = "";
+    	if(b == null) b = "";
+    	return a.compareTo(b);
+    }
+    
+    private int compare(Integer a, Integer b) {
+    	if(a == null) a = Integer.MIN_VALUE;
+    	if(b == null) b= Integer.MIN_VALUE;
+    	return a.compareTo(b);
+    }
 
     @Override
     public int compare(Viewer viewer, Object e1, Object e2) {
@@ -39,22 +51,22 @@ public class ByColumnViewerComparator extends ViewerComparator { // dynamiczne s
         int rc = 0;
         switch (propertyIndex) { // kolejnosc musi byc taka sama jak przy tworzeniu kolumn
         case 0:
-            rc = b1.getId().compareTo(b2.getId());
+            rc = compare(b1.getId(), b2.getId());
             break;
         case 1:
-            rc = b1.getEId().compareTo(b2.getEId());
+        	rc = compare(b1.getEId(), b2.getEId());
             break;
         case 2:
-        	rc = b1.getTitle().compareTo(b2.getTitle());
+        	rc = compare(b1.getTitle(), b2.getTitle());
             break;
         case 3:
-        	rc = b1.getAuthor().compareTo(b2.getAuthor());
+        	rc = compare(b1.getAuthor(), b2.getAuthor());
             break;
         case 4:
-        	rc = b1.getGenre().compareTo(b2.getGenre());
+        	rc = compare(b1.getGenre(), b2.getGenre());
             break;
         case 5:
-        	rc = b1.getPublishYear().compareTo(b2.getPublishYear());
+        	rc = compare(b1.getPublishYear(), b2.getPublishYear());
             break;
         case 6:
         	rc = b1.getAvailable().compareTo(b2.getAvailable());

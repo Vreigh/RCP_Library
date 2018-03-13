@@ -65,6 +65,7 @@ public class BookProviderMock implements BookProvider {
 	}
 	
 	private Optional<BookEdition> getBookEditionById(String id){
+		if(id == null) return Optional.empty();
 		return editions.stream().filter(s -> s.getId().equals(id)).findFirst();
 	}
 	

@@ -31,7 +31,7 @@ public class TitleEditingSupport extends EditingSupport {
 
     @Override
     protected boolean canEdit(Object element) {
-        return ((IBook)element).editionSet();
+        return ((IBook)element).getTitle() != null;
     }
 
     @Override

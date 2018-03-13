@@ -16,7 +16,7 @@ public class BookEdition {
 	
 	public BookEdition(String id, String title, String author, String genre, Integer publishYear) throws IllegalArgumentException  {
 		if((id == null) || (title == null) || (author == null) || (genre == null) || (publishYear == null)) 
-			throw new IllegalArgumentException("Please fill only ID and EID fields or all the fields");
+			throw new IllegalArgumentException("Book Edition - Please fill only ID and EID fields or all the fields");
 		validateAll(id, title, author, genre, publishYear);
 		this.id = id;
 		this.title = title;

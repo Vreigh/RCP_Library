@@ -38,9 +38,9 @@ public class DataProvider {
 		}
 	}
 	public Optional<String> createBook(String id, String eId, String title, String author, 
-			String genre, Integer publishYear, Boolean Available) {
+			String genre, Integer publishYear, Boolean available) {
 		try {
-			return bookProvider.createBook(id, eId, title, author, genre,  publishYear, Available);
+			return bookProvider.createBook(id, eId, title, author, genre,  publishYear, available);
 		}catch(Throwable e) {
 			return Optional.of(e.getMessage());
 		}
