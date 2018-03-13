@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.naming.ConfigurationException;
+
 import org.eclipse.swt.widgets.Shell;
 
 import library01.bookapi.BookProvider;
@@ -18,31 +20,20 @@ import library01.tasks.CheckerXMLTask;
 public class ConfigFileSetupper implements Setupper {
 	private BookProvider bookProvider;
 	
-	public ConfigFileSetupper(Shell shell, IndexView view) {
+	public ConfigFileSetupper() {
 		String configPath = "eclipse-workspace/Library01/src/library01/data/config";
 		
 		try (Stream<String> stream = Files.lines(Paths.get(configPath))) {
 
 			Optional<String> provider = stream.findFirst();
-			if(!provider.isPresent()) throw new Exception("Wrong config file format");
-			switch(provider.get()) {
-				case "Mock":
-					bookProvider = new BookProviderMock();
-					break;
-				case "XML":
-					File xml = new File("eclipse-workspace/Library01/src/library01/data/data.xml");
-					bookProvider = new BookProviderXML(xml);
-					CheckerXMLTask checker = new CheckerXMLTask(shell, view, xml);
-					checker.start();
-					break;
-				default:
-					throw new Exception("Wrong config provider name");		
-			}
-		} catch (Exception e) {
+			if(!provider.isPresent()) throw new ConfigurationException("Wrong config file format");
+			bookProvider = (BookProvider) Class.forName(provider.get()).newInstance();
+			
+		} catch (IOException | ConfigurationException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
-			System.out.println("Setup failed!");
-			System.exit(2);
-		}
+			System.out.println("Error in configuration");
+			System.exit(5);
+		} 
 	}
 	
 	public BookProvider getBookProvider() {

@@ -29,15 +29,12 @@ import org.w3c.dom.NodeList;
 import library01.bookapi.IBook;
 import library01.model.Book;
 import library01.parts.IndexView;
+import library01.parts.ViewManager;
 
 public class CheckerXMLTask {
 	private File file;
-	private IndexView view;
-	private Shell shell;
 	
-	public CheckerXMLTask(Shell shell, IndexView view, File file) {
-		this.shell = shell;
-		this.view = view;
+	public CheckerXMLTask(File file) {
 		this.file = file;
 	}
 	
@@ -48,7 +45,7 @@ public class CheckerXMLTask {
             	while(true) {
             		try {
             			Thread.sleep(3000);
-            			List<IBook> viewBooks = (List<IBook>)view.getData();
+            			List<IBook> viewBooks = (List<IBook>)ViewManager.INSTANCE.getData("books");
             			if(viewBooks != null) {
             				List<String> changes = new ArrayList<String>();
             				synchronized(file) {
@@ -93,8 +90,8 @@ public class CheckerXMLTask {
 	private void syncWithView(String warning) {
 		Display.getDefault().asyncExec(new Runnable() {
             public void run() {
-            	view.reload();
-        		MessageDialog.openWarning(shell, "File changed!", warning);
+            	ViewManager.INSTANCE.reload("books");
+        		MessageDialog.openWarning(ViewManager.INSTANCE.getShell("books"), "File changed!", warning);
             }
         });
 		

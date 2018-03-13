@@ -19,8 +19,7 @@ public class PublishYearEditingSupport extends TitleEditingSupport{
     
     @Override
     protected Object getValue(Object element) {
-        return ((IBook) element).getPublishYear().toString(); // w edycji wyswietlam -x. Mam gwarancje, ze to nie bedzie MIN_VALUE, 
-        // bo do edycji roku wydania edycja musi byc ustawiona 
+        return ((IBook) element).getPublishYear().toString();
     }
 
     @Override

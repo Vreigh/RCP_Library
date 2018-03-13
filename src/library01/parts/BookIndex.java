@@ -58,6 +58,10 @@ public class BookIndex implements IndexView{
 		return viewer.getSelection();
 	}
 	
+	public Shell getShell() {
+		return parentShell;
+	}
+	
 	@PostConstruct
 	public void createComposite(Composite parent) {
 		parentShell = parent.getShell();
@@ -97,7 +101,7 @@ public class BookIndex implements IndexView{
 
         viewer.setContentProvider(new ArrayContentProvider());
         
-        DataProvider.newInstance(new ConfigFileSetupper(parentShell, this));
+        DataProvider.newInstance(new ConfigFileSetupper());
         viewer.setInput(DataProvider.INSTANCE.getBooks());
         
         // define layout for the viewer

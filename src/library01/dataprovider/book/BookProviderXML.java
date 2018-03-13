@@ -26,12 +26,13 @@ import library01.bookapi.BookProvider;
 import library01.bookapi.IBook;
 import library01.model.Book;
 import library01.model.BookEdition;
+import library01.tasks.CheckerXMLTask;
 
 public class BookProviderXML implements BookProvider {
 	private File source;
 	
-	public BookProviderXML(File source) throws Exception {
-		this.source = source;
+	public BookProviderXML() throws Exception {
+		source = new File("eclipse-workspace/Library01/src/library01/data/data.xml");
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -39,6 +40,9 @@ public class BookProviderXML implements BookProvider {
 		
 		List<BookEdition> editions = loadEditions(doc);
 		List<IBook> books = loadBooks(editions, doc);
+		
+		CheckerXMLTask checker = new CheckerXMLTask(source);
+		checker.start();
 	}
 	
 	private BookEdition getBookEditionFromNode(Node node) throws Exception{

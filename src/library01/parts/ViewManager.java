@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.widgets.Shell;
 
 public enum ViewManager {
 	INSTANCE;
@@ -12,6 +13,12 @@ public enum ViewManager {
 	
 	public void addView(String name, IndexView view) {
 		views.put(name, view);
+	}
+	
+	public Object getData(String name) {
+		IndexView view = views.get(name);
+		if(view == null) return null;
+		return view.getData();
 	}
 	
 	public void refresh(String name) {
@@ -28,6 +35,12 @@ public enum ViewManager {
 		IndexView view = views.get(name);
 		if(view == null) return null;
 		return view.getSelection();
+	}
+	
+	public Shell getShell(String name) {
+		IndexView view = views.get(name);
+		if(view == null) return null;
+		return view.getShell();
 	}
 
 }
