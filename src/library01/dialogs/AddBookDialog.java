@@ -17,27 +17,28 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import library01.dataprovider.DataProvider;
+import library01.model.Book;
 
 public class AddBookDialog extends TitleAreaDialog {
-	private Text idTxt;
-    private Text eIdTxt;
-    private Text conditionTxt;
-    private Text titleTxt;
-    private Text authorTxt;
-    private Text genreTxt;
-    private Text publishYearTxt;
-    private Text descriptionTxt;
+	protected Text idTxt;
+	protected Text eIdTxt;
+	protected Combo conditionCombo;
+	protected Text titleTxt;
+	protected Text authorTxt;
+	protected Text genreTxt;
+	protected Text publishYearTxt;
+	protected Text descriptionTxt;
     
-    private String id = null;
-    private String eId = null;
-    private Integer condition = null;
-    private String title = null;
-    private String author = null;
-    private String genre = null;
-    private Integer publishYear = null;
-    private String description = null;
+	protected String id = null;
+	protected String eId = null;
+	protected Integer condition = null;
+	protected String title = null;
+	protected String author = null;
+	protected String genre = null;
+	protected Integer publishYear = null;
+	protected String description = null;
     
-    private Shell parentShell;
+	protected Shell parentShell;
 
     public AddBookDialog(Shell parentShell) {
         super(parentShell);
@@ -73,8 +74,9 @@ public class AddBookDialog extends TitleAreaDialog {
         
         label = new Label(container, SWT.NONE);
     	label.setText("CONDITION: ");
-        conditionTxt = new Text(container, SWT.BORDER);
-        prepareTxtInput(conditionTxt);
+    	conditionCombo = new Combo(container, SWT.DROP_DOWN);
+    	conditionCombo.setItems(Book.getConditionsStatic());
+    	conditionCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
         
         label = new Label(container, SWT.NONE);
     	label.setText("TITLE: ");
@@ -98,11 +100,8 @@ public class AddBookDialog extends TitleAreaDialog {
         
         label = new Label(container, SWT.NONE);
     	label.setText("DESCRIPTION: ");
-        Text text = new Text(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
-        text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL));
-        
-        //Combo combo = new Combo(shell, SWT.DROP_DOWN);
-        //combo.getS
+        descriptionTxt = new Text(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        descriptionTxt.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL));
         
         return area;
     }
@@ -138,15 +137,20 @@ public class AddBookDialog extends TitleAreaDialog {
     	}else return null;
     }
     
-    private void saveInput() {
+    protected void saveInput() {
     	id = override(idTxt.getText());
     	eId = override(eIdTxt.getText());
-    	condition = getIntegerFromText(conditionTxt, "Wrong format of Condition field");
+    	condition = conditionCombo.getSelectionIndex();
+    	if(condition == -1) condition = null;
     	title = override(titleTxt.getText());
     	author = override(authorTxt.getText());
     	genre = override(genreTxt.getText());
     	publishYear = getIntegerFromText(publishYearTxt, "Wrong format of Publish Year field");
     	description = override(descriptionTxt.getText());
+    }
+    
+    protected void ok() {
+    	super.okPressed();
     }
 
     @Override
@@ -157,7 +161,7 @@ public class AddBookDialog extends TitleAreaDialog {
     		MessageDialog.openError(parentShell, "Invalid data", error.get());
     	}else {
     		MessageDialog.openConfirm(parentShell, "Success!", "Book added successfuly");
-    		super.okPressed();
+    		ok();
     	}
          
     }

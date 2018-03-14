@@ -8,6 +8,8 @@ public interface IBook {
     
     public Integer getCondition();
     
+    public String[] getConditions();
+    
     public String getConditionString();
     
     public String getTitle();

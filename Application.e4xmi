@@ -11,12 +11,14 @@
       <children xsi:type="menu:ToolBar" xmi:id="_6wlLlsgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.main.toolbar">
         <children xsi:type="menu:HandledToolItem" xmi:id="_6wlLl8gZEeSyMNYR5xypkQ" elementId="Library01.handleditem.trimbar.top.open" label="Add" iconURI="" tooltip="Add a new item" command="_DDZd4CIUEeizIv_Kn86kSQ"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_jn4RMCIeEeizIv_Kn86kSQ" elementId="library01.handledtoolitem.delete" label="Delete" tooltip="Delete selected items" command="_V_AnwCIeEeizIv_Kn86kSQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_x0gIgCdvEeibzfOC7WvSwA" elementId="library01.handledtoolitem.update" label="Update" tooltip="Update selected item" command="_m6IFoCdvEeibzfOC7WvSwA"/>
       </children>
     </trimBars>
   </children>
   <handlers xmi:id="_6wlLfcgZEeSyMNYR5xypkQ" elementId="library01.handler.quitCommand" contributionURI="bundleclass://Library01/library01.handlers.QuitHandler" command="_6wlLfMgZEeSyMNYR5xypkQ"/>
   <handlers xmi:id="_B6tXgCIUEeizIv_Kn86kSQ" elementId="library01.handler.0" contributionURI="bundleclass://Library01/library01.handlers.CreateHandler" command="_DDZd4CIUEeizIv_Kn86kSQ"/>
   <handlers xmi:id="_aNYFoCIeEeizIv_Kn86kSQ" elementId="library01.handler.deleteHandler" contributionURI="bundleclass://Library01/library01.handlers.DeleteHandler" command="_V_AnwCIeEeizIv_Kn86kSQ"/>
+  <handlers xmi:id="_r-sywCdvEeibzfOC7WvSwA" elementId="library01.handler.1" contributionURI="bundleclass://Library01/library01.handlers.UpdateHandler" command="_m6IFoCdvEeibzfOC7WvSwA"/>
   <bindingTables xmi:id="_6wlLfsgZEeSyMNYR5xypkQ" elementId="Library01.bindingtable" bindingContext="_6wlLecgZEeSyMNYR5xypkQ">
     <bindings xmi:id="_6wlLf8gZEeSyMNYR5xypkQ" elementId="Library01.keybinding.m1q" keySequence="M1+Q" command="_6wlLfMgZEeSyMNYR5xypkQ"/>
     <bindings xmi:id="_6wlLgsgZEeSyMNYR5xypkQ" elementId="Library01.keybinding.m1o" keySequence="M1+N" command="_DDZd4CIUEeizIv_Kn86kSQ"/>
@@ -28,6 +30,7 @@
   <commands xmi:id="_6wlLfMgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
   <commands xmi:id="_DDZd4CIUEeizIv_Kn86kSQ" elementId="library01.command.createCommand" commandName="createCommand"/>
   <commands xmi:id="_V_AnwCIeEeizIv_Kn86kSQ" elementId="library01.command.deleteCommand" commandName="deleteCommand"/>
+  <commands xmi:id="_m6IFoCdvEeibzfOC7WvSwA" elementId="library01.command.updatecommand" commandName="updateCommand"/>
   <addons xmi:id="_6wlLcsgZEeSyMNYR5xypkQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_6wlLc8gZEeSyMNYR5xypkQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_6wlLdMgZEeSyMNYR5xypkQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

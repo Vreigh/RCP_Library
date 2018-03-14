@@ -5,7 +5,6 @@ import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 
 import library01.bookapi.IBook;
-import library01.model.Book;
 
 public class ByColumnViewerComparator extends ViewerComparator { // dynamiczne sortowanie (po różnych kolumnach)
 	private int propertyIndex;

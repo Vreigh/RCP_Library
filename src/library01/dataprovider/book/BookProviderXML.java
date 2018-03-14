@@ -1,13 +1,17 @@
 package library01.dataprovider.book;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.naming.ConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -21,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import library01.bookapi.BookProvider;
 import library01.bookapi.IBook;
@@ -31,7 +36,7 @@ import library01.tasks.CheckerXMLTask;
 public class BookProviderXML implements BookProvider {
 	private File source;
 	
-	public BookProviderXML() throws Exception {
+	public BookProviderXML() throws Exception{
 		source = new File("eclipse-workspace/Library01/src/library01/data/data.xml");
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -48,7 +53,7 @@ public class BookProviderXML implements BookProvider {
 		checker.start();
 	}
 	
-	private BookEdition getBookEditionFromNode(Node node) throws Exception{
+	private BookEdition getBookEditionFromNode(Node node) throws ConfigurationException{
 		if(node.getNodeType() == Node.ELEMENT_NODE){
 			Element eElement = (Element) node;
 			
@@ -61,11 +66,11 @@ public class BookProviderXML implements BookProvider {
 			
 			return new BookEdition(id, title, author, genre, publishYear, description);
 		}else {
-			throw new Exception("XML file format error!");
+			throw new ConfigurationException("XML file format error!");
 		}
 	}
 	
-	private Book getBookFromNode(Node node) throws Exception{
+	private Book getBookFromNode(Node node) throws ConfigurationException{
 		if (node.getNodeType() == Node.ELEMENT_NODE) {
 			Element eElement = (Element) node;
 			
@@ -76,12 +81,12 @@ public class BookProviderXML implements BookProvider {
 			
 			return new Book(id, eId, condition, available);
 		}else {
-			throw new Exception("XML file format error!");
+			throw new ConfigurationException("XML file format error!");
 		}
 	}
 	
 	
-	private List<BookEdition> loadEditions(Document doc) throws Exception{
+	private List<BookEdition> loadEditions(Document doc) throws ConfigurationException{
 		List<BookEdition> editions = new ArrayList<BookEdition>();
 		
 		NodeList nList = doc.getElementsByTagName("edition");
@@ -93,7 +98,7 @@ public class BookProviderXML implements BookProvider {
 		return editions;
 	}
 	
-	private List<IBook> loadBooks(List<BookEdition> editions, Document doc) throws Exception{ 
+	private List<IBook> loadBooks(List<BookEdition> editions, Document doc) throws ConfigurationException{ 
 		List<IBook> books = new ArrayList<IBook>();
 		
 		NodeList nList = doc.getElementsByTagName("book");
@@ -107,7 +112,7 @@ public class BookProviderXML implements BookProvider {
 		return books;
 	}
 	
-	public List<IBook> getBooks() throws Exception{
+	public List<IBook> getBooks() throws ParserConfigurationException, ConfigurationException, SAXException, IOException{
 		synchronized(source) {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -119,7 +124,7 @@ public class BookProviderXML implements BookProvider {
 		}
 	}
 	
-	private Optional<Node> getBookEditionByIdXML(Document doc, String id) throws Exception{
+	private Optional<Node> getBookEditionByIdXML(Document doc, String id) throws XPathExpressionException, ConfigurationException{
 		if(id == null) return Optional.empty();
 		XPathFactory xPathfactory = XPathFactory.newInstance();
 		XPath xpath = xPathfactory.newXPath();
@@ -131,10 +136,10 @@ public class BookProviderXML implements BookProvider {
 		}else if(matching.getLength() == 1) {
 			Node edition = matching.item(0);
 			return Optional.of(edition);
-		}else throw new Exception("XML file format error - multiple elements with same id!");
+		}else throw new ConfigurationException("XML file format error - multiple elements with same id!");
 	}
 	
-	private Optional<Node> getBookByIdXML(Document doc, String id) throws Exception{
+	private Optional<Node> getBookByIdXML(Document doc, String id) throws ConfigurationException, XPathExpressionException{
 		if(id == null) return Optional.empty();
 		XPathFactory xPathfactory = XPathFactory.newInstance();
 		XPath xpath = xPathfactory.newXPath();
@@ -146,10 +151,10 @@ public class BookProviderXML implements BookProvider {
 		}else if(matchingBooks.getLength() == 1) {
 			Node book = matchingBooks.item(0);
 			return Optional.of(book);
-		}else throw new Exception("XML file format error - multiple elements with same id!");
+		}else throw new ConfigurationException("XML file format error - multiple elements with same id!");
 	}
 	
-	public Optional<IBook> getBookById(String id) throws Exception{
+	public Optional<IBook> getBookById(String id) throws ParserConfigurationException, ConfigurationException, XPathExpressionException, SAXException, IOException{
 		synchronized(source) {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -192,7 +197,7 @@ public class BookProviderXML implements BookProvider {
 			return Optional.empty();
 		}
 	}
-	private void addNewBookEditionXML(Document doc, BookEdition data) throws Exception {
+	private void addNewBookEditionXML(Document doc, BookEdition data) throws TransformerException {
 		Node editions = ((NodeList)doc.getElementsByTagName("editions")).item(0);
 		
 		Node editionNode = doc.createElement("edition");
@@ -221,7 +226,7 @@ public class BookProviderXML implements BookProvider {
 		saveDocument(doc);
 	}
 	
-	private void saveDocument(Document doc) throws Exception {
+	private void saveDocument(Document doc) throws TransformerException {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource DOMsource = new DOMSource(doc);
@@ -229,7 +234,7 @@ public class BookProviderXML implements BookProvider {
 		transformer.transform(DOMsource, result);
 	}
 	
-	public void deleteBook(String id) throws Exception {
+	public void deleteBook(String id) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, ConfigurationException, TransformerException {
 		synchronized(source) {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -248,11 +253,11 @@ public class BookProviderXML implements BookProvider {
 				Node book = matchingBooks.item(0);
 				books.removeChild(book);
 				saveDocument(doc);
-			}else throw new Exception("XML file format error - multiple elements with same id!");
+			}else throw new ConfigurationException("XML file format error - multiple elements with same id!");
 		}
 	}
 	public Optional<String> updateBook(String id, String nId, String eId, Integer condition, String title, String author, 
-			String genre, Integer publishYear, String description, Boolean available) throws Exception{
+			String genre, Integer publishYear, String description, Boolean available) throws ParserConfigurationException, ConfigurationException, XPathExpressionException, SAXException, IOException, TransformerException{
 		Book.validate(nId, eId, condition);
 		BookEdition.validate(title, author, genre, publishYear, description);
 		synchronized(source) {
@@ -278,11 +283,11 @@ public class BookProviderXML implements BookProvider {
 					editionToUpdate = getBookEditionByIdXML(doc, book.getAttribute("eId"));
 				}
 				
-				if(editionToUpdate != null) {
+				if(editionToUpdate.isPresent()) {
 					Element edition = (Element) editionToUpdate.get();
 					if(title != null) edition.setAttribute("title", title);
-					if(author != null) edition.setAttribute("title", author);
-					if(genre != null) edition.setAttribute("title", genre);
+					if(author != null) edition.setAttribute("author", author);
+					if(genre != null) edition.setAttribute("genre", genre);
 					if(publishYear != null) edition.setAttribute("publishYear", String.valueOf(publishYear));
 					if(description != null) edition.setAttribute("description", description);
 				}

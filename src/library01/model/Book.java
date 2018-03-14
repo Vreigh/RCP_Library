@@ -2,8 +2,6 @@ package library01.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.security.InvalidParameterException;
-import java.util.Date;
 import java.util.Optional;
 
 import library01.bookapi.IBook;
@@ -16,7 +14,7 @@ public class Book implements IBook {
 	private Boolean available;
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
             this);
-	private String[] conditions = {"NOWA", "PRAWIE NOWA", "UŻYWANA", "NADNISZCZONA", "STARA", "B. STARA"};
+	private static String[] conditions = {"NOWA", "PRAWIE NOWA", "UŻYWANA", "NADNISZCZONA", "STARA", "B. STARA"};
 	
 	public Book() {
 	}
@@ -58,8 +56,16 @@ public class Book implements IBook {
     	return condition;
     }
     
+    public static String[] getConditionsStatic() {
+    	return conditions;
+    }
+    
+    public String[] getConditions() {
+    	return conditions;
+    }
+    
     public String getConditionString() {
-    	return conditions[getCondition()];
+    	return conditions[condition];
     }
     
     public String getTitle() {
@@ -164,6 +170,6 @@ public class Book implements IBook {
     public static void validate(String id, String eId, Integer condition) throws IllegalArgumentException{ // walidacja
     	if((id != null)&& (id.length() < 3)) throw new IllegalArgumentException("The ID field must be at least 3 characters long!");
 		if((eId != null)&&(eId.length() < 3)) throw new IllegalArgumentException("The EID field must be at least 3 characters long!");
-		if((condition != null) && ((condition > 5) || (condition < 0))) throw new IllegalArgumentException("Wrong format of the Condition");
+		if((condition != null) && ((condition > conditions.length) || (condition < 0))) throw new IllegalArgumentException("Wrong format of the Condition");
 	}
 }

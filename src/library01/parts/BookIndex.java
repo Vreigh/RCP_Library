@@ -26,6 +26,7 @@ import library01.bookapi.IBook;
 import library01.dataprovider.DataProvider;
 import library01.edit.AuthorEditingSupport;
 import library01.edit.AvailableEditingSupport;
+import library01.edit.ConditionEditingSupport;
 import library01.edit.EIdEditingSupport;
 import library01.edit.GenreEditingSupport;
 import library01.edit.IdEditingSupport;
@@ -200,7 +201,7 @@ public class BookIndex implements IndexView{
             	cell.setText(((IBook) cell.getElement()).getConditionString());
             }
         });
-        //col.setEditingSupport(new EIdEditingSupport(viewer, parentShell));
+        col.setEditingSupport(new ConditionEditingSupport(viewer, parentShell));
         i++;
         
         // Available

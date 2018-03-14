@@ -1,9 +1,6 @@
 package library01.model;
 
 import java.beans.PropertyChangeSupport;
-import java.util.Optional;
-
-import library01.bookapi.IBook;
 
 public class BookEdition {
 	private String id;

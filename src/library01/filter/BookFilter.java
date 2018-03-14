@@ -4,7 +4,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
 import library01.bookapi.IBook;
-import library01.model.Book;
 
 public class BookFilter extends ViewerFilter {
 	private String searchString;
